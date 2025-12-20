@@ -5,7 +5,28 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 
-// Game data with placeholder images (you'll need to add your actual screenshots)
+// Import game screenshots
+import cureInfection1 from '@/assets/cure-infection-screenshot-1.png';
+import cureInfection2 from '@/assets/cure-infection-screenshot-2.png';
+import cureInfection3 from '@/assets/cure-infection-screenshot-3.png';
+import cureInfection4 from '@/assets/cure-infection-screenshot-4.png';
+import cureInfection5 from '@/assets/cure-infection-screenshot-5.png';
+import cureInfection6 from '@/assets/cure-infection-screenshot-6.png';
+import raptorHunter1 from '@/assets/raptor-hunter-screenshot-1.png';
+import raptorHunter2 from '@/assets/raptor-hunter-screenshot-2.png';
+import raptorHunter3 from '@/assets/raptor-hunter-screenshot-3.png';
+import raptorHunter4 from '@/assets/raptor-hunter-screenshot-4.png';
+import raptorHunter5 from '@/assets/raptor-hunter-screenshot-5.png';
+import raptorHunter6 from '@/assets/raptor-hunter-screenshot-6.png';
+import findImposter1 from '@/assets/find-imposter-screenshot-1.png';
+import findImposter2 from '@/assets/find-imposter-screenshot-2.png';
+import findImposter3 from '@/assets/find-imposter-screenshot-3.png';
+import findImposter4 from '@/assets/find-imposter-screenshot-4.png';
+import findImposter5 from '@/assets/find-imposter-screenshot-5.png';
+import findImposter6 from '@/assets/find-imposter-screenshot-6.png';
+import findImposterIcon from '@/assets/find-the-imposter-icon.png';
+
+// Game data
 const games = [
   {
     id: 0,
@@ -17,12 +38,7 @@ const games = [
     link: 'https://goncal0.itch.io/cure-and-infection',
     trailerVideoId: 'Xmvg2rPg59Q',
     screenshots: [
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+1',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+2',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+3',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+4',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+5',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+6',
+      cureInfection1, cureInfection2, cureInfection3, cureInfection4, cureInfection5, cureInfection6
     ],
   },
   {
@@ -35,12 +51,7 @@ const games = [
     link: 'https://raptorbot.itch.io/raptor-hunter',
     trailerVideoId: 'vbHF9V5M4Dk',
     screenshots: [
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+1',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+2',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+3',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+4',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+5',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+6',
+      raptorHunter1, raptorHunter2, raptorHunter3, raptorHunter4, raptorHunter5, raptorHunter6
     ],
   },
   {
@@ -48,17 +59,13 @@ const games = [
     title: 'Find The Imposter',
     genre: 'Role-Playing / Social Deduction',
     description: 'Uncover and eliminate the imposter before they eliminate the crew. (Among Us Fan-Game)',
-    icon: 'https://via.placeholder.com/100x100/1a1a1a/d4af37?text=Icon',
+    icon: findImposterIcon,
     gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
     link: 'https://raptorbot.itch.io/find-the-imposter',
     trailerVideoId: 'tg1A09S3Puo',
+    btsVideo: '/videos/find-the-imposter-bts.mkv',
     screenshots: [
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+1',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+2',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+3',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+4',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+5',
-      'https://via.placeholder.com/400x225/1a1a1a/d4af37?text=Screenshot+6',
+      findImposter1, findImposter2, findImposter3, findImposter4, findImposter5, findImposter6
     ],
   }
 ];
@@ -75,19 +82,36 @@ const models3DVideos = [
 
 // Art data
 const artCategories = {
-  featured: { id: 1, image: 'https://via.placeholder.com/600x400/1a1a1a/d4af37?text=Featured+Art' },
+  featured: { id: 1, image: '/images/env-featured.png' },
   characterDesigns: Array.from({ length: 6 }, (_, i) => ({
     id: i + 1,
     image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Character+${i + 1}`
   })),
-  digitalPortraits: Array.from({ length: 13 }, (_, i) => ({
-    id: i + 1,
-    image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Portrait+${i + 1}`
-  })),
-  environments: Array.from({ length: 7 }, (_, i) => ({
-    id: i + 1,
-    image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Art+Env+${i + 1}`
-  })),
+  digitalPortraits: [
+    { id: 1, image: '/images/portrait-1.png' },
+    { id: 2, image: '/images/portrait-2.png' },
+    { id: 3, image: '/images/portrait-3.png' },
+    { id: 4, image: '/images/portrait-4.png' },
+    { id: 5, image: '/images/portrait-5.png' },
+    { id: 6, image: '/images/portrait-6.jpg' },
+    { id: 7, image: '/images/portrait-7.jpg' },
+    { id: 8, image: '/images/portrait-8.jpg' },
+    { id: 9, image: '/images/portrait-9.jpg' },
+    { id: 10, image: '/images/portrait-10.jpg' },
+    { id: 11, image: '/images/portrait-11.jpg' },
+    { id: 12, image: '/images/portrait-12.jpg' },
+    { id: 13, image: '/images/portrait-13.jpg' },
+  ],
+  environments: [
+    { id: 1, image: '/images/env-1.png' },
+    { id: 2, image: '/images/env-2.png' },
+    { id: 3, image: '/images/env-3.png' },
+    { id: 4, image: '/images/env-4.png' },
+    { id: 5, image: '/images/env-5.png' },
+    { id: 6, image: '/images/env-6.png' },
+    { id: 7, image: '/images/env-7.png' },
+    { id: 8, image: '/images/env-8.png' },
+  ],
   comicsGameTrailers: Array.from({ length: 5 }, (_, i) => ({
     id: i + 1,
     image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Comic+${i + 1}`
@@ -138,6 +162,7 @@ const VideoWithThumbnail = ({ src, featured = false }: { src: string; featured?:
 // Game Card Component
 const GameCard = ({ game }: { game: typeof games[0] }) => {
   const [showGameplay, setShowGameplay] = useState(false);
+  const [showBTS, setShowBTS] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   return (
@@ -213,6 +238,18 @@ const GameCard = ({ game }: { game: typeof games[0] }) => {
                 </Button>
               </CollapsibleTrigger>
             </Collapsible>
+
+            {game.btsVideo && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-2"
+                onClick={() => setShowBTS(true)}
+              >
+                <Film className="h-4 w-4" />
+                Behind the Scenes
+              </Button>
+            )}
           </div>
         </div>
 
@@ -242,6 +279,23 @@ const GameCard = ({ game }: { game: typeof games[0] }) => {
                 src={zoomedImage}
                 alt="Zoomed screenshot"
                 className="w-full h-full object-contain"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* BTS Video Dialog */}
+        <Dialog open={showBTS} onOpenChange={setShowBTS}>
+          <DialogContent className="max-w-4xl p-0 bg-black">
+            <DialogClose className="absolute right-4 top-4 z-10">
+              <X className="h-6 w-6 text-white" />
+            </DialogClose>
+            {game.btsVideo && (
+              <video
+                src={game.btsVideo}
+                controls
+                autoPlay
+                className="w-full h-auto"
               />
             )}
           </DialogContent>
