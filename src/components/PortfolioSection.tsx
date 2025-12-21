@@ -25,6 +25,8 @@ import findImposter4 from '@/assets/find-imposter-screenshot-4.png';
 import findImposter5 from '@/assets/find-imposter-screenshot-5.png';
 import findImposter6 from '@/assets/find-imposter-screenshot-6.png';
 import findImposterIcon from '@/assets/find-the-imposter-icon.png';
+import cureInfectionIcon from '@/assets/cure-infection-icon.png';
+import raptorHunterIcon from '@/assets/raptor-hunter-icon.png';
 
 // Game data
 const games = [
@@ -33,7 +35,7 @@ const games = [
     title: 'Cure and Infection',
     genre: 'Survival Shooting',
     description: 'A survival FPS developed in just six days, where you help Dr. Cure and his nurse fight a viral outbreak caused by his brother.',
-    icon: '/lovable-uploads/1926397c-9799-4da6-8f66-8b14575a9ab7.png',
+    icon: cureInfectionIcon,
     gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
     link: 'https://goncal0.itch.io/cure-and-infection',
     trailerVideoId: 'Xmvg2rPg59Q',
@@ -46,7 +48,7 @@ const games = [
     title: 'Raptor Hunter',
     genre: 'Shooter',
     description: 'Armed with a shotgun and pistol, you must hunt fast and relentless raptors in a survival challenge.',
-    icon: '/lovable-uploads/e47ddb89-046a-41be-b8f1-4049ede69a82.png',
+    icon: raptorHunterIcon,
     gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
     link: 'https://raptorbot.itch.io/raptor-hunter',
     trailerVideoId: 'vbHF9V5M4Dk',
