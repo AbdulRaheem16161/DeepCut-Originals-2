@@ -320,12 +320,14 @@ const CategoryGrid = ({
   title,
   items,
   isGif = false,
-  isVideo = false
+  isVideo = false,
+  onImageClick
 }: {
   title: string;
   items: { id: number; image?: string; gif?: string; video?: string }[];
   isGif?: boolean;
   isVideo?: boolean;
+  onImageClick?: (image: string) => void;
 }) => (
   <div className="mb-10">
     <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">{title}</h4>
@@ -333,7 +335,8 @@ const CategoryGrid = ({
       {items.map((item) => (
         <div
           key={item.id}
-          className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+          className={`aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all ${onImageClick ? 'cursor-pointer hover:scale-[1.02]' : ''}`}
+          onClick={() => onImageClick && (isGif ? item.gif : item.image) && onImageClick(isGif ? item.gif! : item.image!)}
         >
           {isVideo && item.video ? (
             <video
@@ -358,6 +361,8 @@ const CategoryGrid = ({
 );
 
 const PortfolioSection = () => {
+  const [zoomedArtImage, setZoomedArtImage] = useState<string | null>(null);
+
   return (
     <section id="portfolio" className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
@@ -423,7 +428,10 @@ const PortfolioSection = () => {
           <div className="mb-10">
             <h4 className="text-lg md:text-xl font-orbitron font-semibold text-primary mb-4">Featured</h4>
             <div className="max-w-2xl">
-              <div className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/30 hover:border-primary transition-colors">
+              <div 
+                className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/30 hover:border-primary transition-colors cursor-pointer hover:scale-[1.02]"
+                onClick={() => setZoomedArtImage(artCategories.featured.image)}
+              >
                 <img
                   src={artCategories.featured.image}
                   alt="Featured art"
@@ -433,7 +441,7 @@ const PortfolioSection = () => {
             </div>
           </div>
 
-          <CategoryGrid title="Character Designs" items={artCategories.characterDesigns} />
+          <CategoryGrid title="Character Designs" items={artCategories.characterDesigns} onImageClick={setZoomedArtImage} />
           
           {/* Digital Portraits */}
           <div className="mb-10">
@@ -442,7 +450,8 @@ const PortfolioSection = () => {
               {artCategories.digitalPortraits.map((portrait) => (
                 <div
                   key={portrait.id}
-                  className="break-inside-avoid rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+                  className="break-inside-avoid rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors cursor-pointer hover:scale-[1.02]"
+                  onClick={() => setZoomedArtImage(portrait.image)}
                 >
                   <img src={portrait.image} alt={`Portrait ${portrait.id}`} className="w-full h-auto" />
                 </div>
@@ -450,8 +459,8 @@ const PortfolioSection = () => {
             </div>
           </div>
 
-          <CategoryGrid title="Environments" items={artCategories.environments} />
-          <CategoryGrid title="Comics / Game Trailers" items={artCategories.comicsGameTrailers} />
+          <CategoryGrid title="Environments" items={artCategories.environments} onImageClick={setZoomedArtImage} />
+          <CategoryGrid title="Comics / Game Trailers" items={artCategories.comicsGameTrailers} onImageClick={setZoomedArtImage} />
         </div>
 
         {/* 5. ANIMATION CLIPS SECTION */}
@@ -472,6 +481,22 @@ const PortfolioSection = () => {
             ))}
           </div>
         </div>
+
+        {/* Zoomed Art Image Dialog */}
+        <Dialog open={!!zoomedArtImage} onOpenChange={() => setZoomedArtImage(null)}>
+          <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95">
+            <DialogClose className="absolute right-4 top-4 z-10">
+              <X className="h-6 w-6 text-white" />
+            </DialogClose>
+            {zoomedArtImage && (
+              <img
+                src={zoomedArtImage}
+                alt="Zoomed art"
+                className="w-full h-full object-contain"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
