@@ -436,17 +436,13 @@ const PortfolioSection = () => {
           {/* Digital Portraits */}
           <div className="mb-10">
             <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">Digital Portraits</h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 auto-rows-[200px]">
-              {artCategories.digitalPortraits.map((portrait, index) => (
+            <div className="columns-2 md:columns-4 lg:columns-6 gap-3 space-y-3">
+              {artCategories.digitalPortraits.map((portrait) => (
                 <div
                   key={portrait.id}
-                  className={`rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors ${
-                    index === 0 ? 'row-span-2 col-span-1 md:col-span-2' : ''
-                  } ${index === 3 || index === 4 || index === 9 ? 'row-span-2' : ''} ${
-                    index === 7 ? 'col-span-1 md:col-span-2' : ''
-                  } ${index === 12 ? 'col-span-2' : ''}`}
+                  className="break-inside-avoid rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
                 >
-                  <img src={portrait.image} alt={`Portrait ${portrait.id}`} className="w-full h-full object-cover" />
+                  <img src={portrait.image} alt={`Portrait ${portrait.id}`} className="w-full h-auto" />
                 </div>
               ))}
             </div>
