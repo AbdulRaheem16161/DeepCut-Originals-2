@@ -382,17 +382,32 @@ const PortfolioSection = () => {
         {/* 2. 3D MODELS SECTION */}
         <div className="mb-20">
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {models3DVideos.map((item) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+            {/* Featured large video - spans 2 columns */}
+            {models3DVideos.filter(item => item.featured).map((item) => (
               <div
                 key={item.id}
-                className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-colors ${
-                  item.featured
-                    ? 'border-2 border-primary/50 hover:border-primary md:col-span-2 lg:col-span-2'
-                    : 'border-border/30 hover:border-primary/50'
-                }`}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/50 hover:border-primary md:col-span-2 md:row-span-2"
               >
-                <VideoWithThumbnail src={item.video} featured={item.featured} />
+                <VideoWithThumbnail src={item.video} featured={true} />
+              </div>
+            ))}
+            {/* First small video on right */}
+            {models3DVideos.filter(item => !item.featured).slice(0, 1).map((item) => (
+              <div
+                key={item.id}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+              >
+                <VideoWithThumbnail src={item.video} />
+              </div>
+            ))}
+            {/* Bottom row - 3 small videos */}
+            {models3DVideos.filter(item => !item.featured).slice(1, 4).map((item) => (
+              <div
+                key={item.id}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+              >
+                <VideoWithThumbnail src={item.video} />
               </div>
             ))}
           </div>
