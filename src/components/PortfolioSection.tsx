@@ -28,6 +28,40 @@ import findImposterIcon from '@/assets/find-the-imposter-icon.png';
 import cureInfectionIcon from '@/assets/cure-infection-icon.png';
 import raptorHunterIcon from '@/assets/raptor-hunter-icon.png';
 
+// Import character designs
+import characterDesign1 from '@/assets/character-design-1.jpg';
+import characterDesign2 from '@/assets/character-design-2.jpg';
+import characterDesign3 from '@/assets/character-design-3.jpg';
+import characterDesign4 from '@/assets/character-design-4.jpg';
+import characterDesign5 from '@/assets/character-design-5.jpg';
+import characterDesign6 from '@/assets/character-design-6.jpg';
+
+// Import portraits
+import portrait1 from '@/assets/portrait-1.png';
+import portrait2 from '@/assets/portrait-2.png';
+import portrait3 from '@/assets/portrait-3.png';
+import portrait4 from '@/assets/portrait-4.png';
+import portrait5 from '@/assets/portrait-5.png';
+import portrait6 from '@/assets/portrait-6.jpg';
+import portrait7 from '@/assets/portrait-7.jpg';
+import portrait8 from '@/assets/portrait-8.jpg';
+import portrait9 from '@/assets/portrait-9.jpg';
+import portrait10 from '@/assets/portrait-10.jpg';
+import portrait11 from '@/assets/portrait-11.jpg';
+import portrait12 from '@/assets/portrait-12.jpg';
+import portrait13 from '@/assets/portrait-13.jpg';
+
+// Import environments
+import envFeatured from '@/assets/env-featured.png';
+import env1 from '@/assets/env-1.png';
+import env2 from '@/assets/env-2.png';
+import env3 from '@/assets/env-3.png';
+import env4 from '@/assets/env-4.png';
+import env5 from '@/assets/env-5.png';
+import env6 from '@/assets/env-6.png';
+import env7 from '@/assets/env-7.png';
+import env8 from '@/assets/env-8.png';
+
 // Game data
 const games = [
   {
@@ -80,45 +114,52 @@ const models3DVideos = [
   { id: 3, video: '/videos/3d-model-2.mp4' },
   { id: 4, video: '/videos/3d-model-3.mp4' },
   { id: 5, video: '/videos/3d-model-4.mp4' },
+  { id: 7, video: '/videos/3d-model-6.mp4' },
 ];
 
 // Art data
 const artCategories = {
-  featured: { id: 1, image: '/images/env-featured.png' },
-  characterDesigns: Array.from({ length: 6 }, (_, i) => ({
-    id: i + 1,
-    image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Character+${i + 1}`
-  })),
-  digitalPortraits: [
-    { id: 1, image: '/images/portrait-1.png' },
-    { id: 2, image: '/images/portrait-2.png' },
-    { id: 3, image: '/images/portrait-3.png' },
-    { id: 4, image: '/images/portrait-4.png' },
-    { id: 5, image: '/images/portrait-5.png' },
-    { id: 6, image: '/images/portrait-6.jpg' },
-    { id: 7, image: '/images/portrait-7.jpg' },
-    { id: 8, image: '/images/portrait-8.jpg' },
-    { id: 9, image: '/images/portrait-9.jpg' },
-    { id: 10, image: '/images/portrait-10.jpg' },
-    { id: 11, image: '/images/portrait-11.jpg' },
-    { id: 12, image: '/images/portrait-12.jpg' },
-    { id: 13, image: '/images/portrait-13.jpg' },
+  characterDesigns: [
+    { id: 1, image: characterDesign1 },
+    { id: 2, image: characterDesign2 },
+    { id: 3, image: characterDesign3 },
+    { id: 4, image: characterDesign4 },
+    { id: 5, image: characterDesign5 },
+    { id: 6, image: characterDesign6 },
   ],
-  environments: [
-    { id: 1, image: '/images/env-1.png' },
-    { id: 2, image: '/images/env-2.png' },
-    { id: 3, image: '/images/env-3.png' },
-    { id: 4, image: '/images/env-4.png' },
-    { id: 5, image: '/images/env-5.png' },
-    { id: 6, image: '/images/env-6.png' },
-    { id: 7, image: '/images/env-7.png' },
-    { id: 8, image: '/images/env-8.png' },
+  digitalPortraits: [
+    { id: 1, image: portrait1 },
+    { id: 2, image: portrait2 },
+    { id: 3, image: portrait3 },
+    { id: 4, image: portrait4 },
+    { id: 5, image: portrait5 },
+    { id: 6, image: portrait6 },
+    { id: 7, image: portrait7 },
+    { id: 8, image: portrait8 },
+    { id: 9, image: portrait9 },
+    { id: 10, image: portrait10 },
+    { id: 11, image: portrait11 },
+    { id: 12, image: portrait12 },
+    { id: 13, image: portrait13 },
   ],
   comicsGameTrailers: Array.from({ length: 5 }, (_, i) => ({
     id: i + 1,
     image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Comic+${i + 1}`
   })),
 };
+
+// Environments data (separate section)
+const environmentsData = [
+  { id: 0, image: envFeatured, featured: true },
+  { id: 1, image: env1 },
+  { id: 2, image: env2 },
+  { id: 3, image: env3 },
+  { id: 4, image: env4 },
+  { id: 5, image: env5 },
+  { id: 6, image: env6 },
+  { id: 7, image: env7 },
+  { id: 8, image: env8 },
+];
 
 // Animation Clips data
 const animationClipsArt = Array.from({ length: 5 }, (_, i) => ({
@@ -420,26 +461,46 @@ const PortfolioSection = () => {
           </div>
         </div>
 
-        {/* 4. ART SECTION */}
+        {/* 4. ENVIRONMENTS SECTION */}
+        <div className="mb-20">
+          <SectionHeader title="Environments" subtitle="Environment art and world design" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+            {/* Featured large environment - spans 2 columns */}
+            {environmentsData.filter(item => item.featured).map((item) => (
+              <div
+                key={item.id}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/50 hover:border-primary md:col-span-2 md:row-span-2 cursor-pointer hover:scale-[1.01] transition-all"
+                onClick={() => setZoomedArtImage(item.image)}
+              >
+                <img src={item.image} alt="Featured environment" className="w-full h-full object-cover" />
+              </div>
+            ))}
+            {/* First small environment on right */}
+            {environmentsData.filter(item => !item.featured).slice(0, 1).map((item) => (
+              <div
+                key={item.id}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]"
+                onClick={() => setZoomedArtImage(item.image)}
+              >
+                <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+            {/* Bottom row - remaining environments */}
+            {environmentsData.filter(item => !item.featured).slice(1).map((item) => (
+              <div
+                key={item.id}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]"
+                onClick={() => setZoomedArtImage(item.image)}
+              >
+                <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 5. ART SECTION */}
         <div className="mb-20">
           <SectionHeader title="Art" subtitle="Digital art and illustrations" />
-
-          {/* Featured */}
-          <div className="mb-10">
-            <h4 className="text-lg md:text-xl font-orbitron font-semibold text-primary mb-4">Featured</h4>
-            <div className="max-w-2xl">
-              <div 
-                className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/30 hover:border-primary transition-colors cursor-pointer hover:scale-[1.02]"
-                onClick={() => setZoomedArtImage(artCategories.featured.image)}
-              >
-                <img
-                  src={artCategories.featured.image}
-                  alt="Featured art"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
 
           <CategoryGrid title="Character Designs" items={artCategories.characterDesigns} onImageClick={setZoomedArtImage} />
           
@@ -459,7 +520,6 @@ const PortfolioSection = () => {
             </div>
           </div>
 
-          <CategoryGrid title="Environments" items={artCategories.environments} onImageClick={setZoomedArtImage} />
           <CategoryGrid title="Comics / Game Trailers" items={artCategories.comicsGameTrailers} onImageClick={setZoomedArtImage} />
         </div>
 
