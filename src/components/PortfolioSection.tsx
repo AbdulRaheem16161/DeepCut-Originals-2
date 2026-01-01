@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { CharacterDesignsGrid } from '@/components/CharacterDesignsGrid';
+import { DigitalPortraitsGrid } from '@/components/DigitalPortraitsGrid';
 
 // Import game screenshots
 import cureInfection1 from '@/assets/cure-infection-screenshot-1.png';
@@ -63,182 +65,121 @@ import env7 from '@/assets/env-7.png';
 import env8 from '@/assets/env-8.png';
 
 // Game data
-const games = [{
-  id: 0,
-  title: 'Cure and Infection',
-  genre: 'Survival Shooting',
-  description: 'A survival FPS developed in just six days, where you help Dr. Cure and his nurse fight a viral outbreak caused by his brother.',
-  icon: cureInfectionIcon,
-  gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
-  link: 'https://goncal0.itch.io/cure-and-infection',
-  trailerVideoId: 'Xmvg2rPg59Q',
-  screenshots: [cureInfection1, cureInfection2, cureInfection3, cureInfection4, cureInfection5, cureInfection6]
-}, {
-  id: 2,
-  title: 'Raptor Hunter',
-  genre: 'Shooter',
-  description: 'Armed with a shotgun and pistol, you must hunt fast and relentless raptors in a survival challenge.',
-  icon: raptorHunterIcon,
-  gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
-  link: 'https://raptorbot.itch.io/raptor-hunter',
-  trailerVideoId: 'vbHF9V5M4Dk',
-  screenshots: [raptorHunter1, raptorHunter2, raptorHunter3, raptorHunter4, raptorHunter5, raptorHunter6]
-}, {
-  id: 4,
-  title: 'Find The Imposter',
-  genre: 'Role-Playing / Social Deduction',
-  description: 'Uncover and eliminate the imposter before they eliminate the crew. (Among Us Fan-Game)',
-  icon: findImposterIcon,
-  gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
-  link: 'https://raptorbot.itch.io/find-the-imposter',
-  trailerVideoId: 'tg1A09S3Puo',
-  btsVideo: '/videos/find-the-imposter-bts.mkv',
-  screenshots: [findImposter1, findImposter2, findImposter3, findImposter4, findImposter5, findImposter6]
-}];
+const games = [
+  {
+    id: 0,
+    title: 'Cure and Infection',
+    genre: 'Survival Shooting',
+    description:
+      'A survival FPS developed in just six days, where you help Dr. Cure and his nurse fight a viral outbreak caused by his brother.',
+    icon: cureInfectionIcon,
+    gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
+    link: 'https://goncal0.itch.io/cure-and-infection',
+    trailerVideoId: 'Xmvg2rPg59Q',
+    screenshots: [
+      cureInfection1,
+      cureInfection2,
+      cureInfection3,
+      cureInfection4,
+      cureInfection5,
+      cureInfection6,
+    ],
+  },
+  {
+    id: 2,
+    title: 'Raptor Hunter',
+    genre: 'Shooter',
+    description:
+      'Armed with a shotgun and pistol, you must hunt fast and relentless raptors in a survival challenge.',
+    icon: raptorHunterIcon,
+    gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
+    link: 'https://raptorbot.itch.io/raptor-hunter',
+    trailerVideoId: 'vbHF9V5M4Dk',
+    screenshots: [raptorHunter1, raptorHunter2, raptorHunter3, raptorHunter4, raptorHunter5, raptorHunter6],
+  },
+  {
+    id: 4,
+    title: 'Find The Imposter',
+    genre: 'Role-Playing / Social Deduction',
+    description: 'Uncover and eliminate the imposter before they eliminate the crew. (Among Us Fan-Game)',
+    icon: findImposterIcon,
+    gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
+    link: 'https://raptorbot.itch.io/find-the-imposter',
+    trailerVideoId: 'tg1A09S3Puo',
+    btsVideo: '/videos/find-the-imposter-bts.mkv',
+    screenshots: [findImposter1, findImposter2, findImposter3, findImposter4, findImposter5, findImposter6],
+  },
+];
 
 // 3D Models data
-const models3DVideos = [{
-  id: 1,
-  video: '/videos/3d-model-featured.mp4',
-  featured: true
-}, {
-  id: 6,
-  video: '/videos/3d-model-5.mp4'
-}, {
-  id: 2,
-  video: '/videos/3d-model-1.mp4'
-}, {
-  id: 3,
-  video: '/videos/3d-model-2.mp4'
-}, {
-  id: 4,
-  video: '/videos/3d-model-3.mp4'
-}, {
-  id: 5,
-  video: '/videos/3d-model-4.mp4'
-}, {
-  id: 7,
-  video: '/videos/3d-model-6.mp4'
-}];
+// NOTE: Only include videos that actually exist in /public/videos to avoid broken previews.
+const models3DVideos = [
+  {
+    id: 1,
+    video: '/videos/3d-model-6-upload.mp4',
+    featured: true,
+  },
+  {
+    id: 2,
+    video: '/videos/3d-model-6.mp4',
+  },
+];
 
 // Art data
 const artCategories = {
-  characterDesigns: [{
-    id: 1,
-    image: characterDesign1
-  }, {
-    id: 2,
-    image: characterDesign2
-  }, {
-    id: 3,
-    image: characterDesign3
-  }, {
-    id: 4,
-    image: characterDesign4
-  }, {
-    id: 5,
-    image: characterDesign5
-  }, {
-    id: 6,
-    image: characterDesign6
-  }],
-  digitalPortraits: [{
-    id: 1,
-    image: portrait1
-  }, {
-    id: 2,
-    image: portrait2
-  }, {
-    id: 3,
-    image: portrait3
-  }, {
-    id: 4,
-    image: portrait4
-  }, {
-    id: 5,
-    image: portrait5
-  }, {
-    id: 6,
-    image: portrait6
-  }, {
-    id: 7,
-    image: portrait7
-  }, {
-    id: 8,
-    image: portrait8
-  }, {
-    id: 9,
-    image: portrait9
-  }, {
-    id: 10,
-    image: portrait10
-  }, {
-    id: 11,
-    image: portrait11
-  }, {
-    id: 12,
-    image: portrait12
-  }, {
-    id: 13,
-    image: portrait13
-  }],
-  comicsGameTrailers: Array.from({
-    length: 5
-  }, (_, i) => ({
+  characterDesigns: [
+    { id: 1, image: characterDesign1 },
+    { id: 2, image: characterDesign2 },
+    { id: 3, image: characterDesign3 },
+    { id: 4, image: characterDesign4 },
+    { id: 5, image: characterDesign5 },
+    { id: 6, image: characterDesign6 },
+  ],
+  digitalPortraits: [
+    { id: 1, image: portrait1 },
+    { id: 2, image: portrait2 },
+    { id: 3, image: portrait3 },
+    { id: 4, image: portrait4 },
+    { id: 5, image: portrait5 },
+    { id: 6, image: portrait6 },
+    { id: 7, image: portrait7 },
+    { id: 8, image: portrait8 },
+    { id: 9, image: portrait9 },
+    { id: 10, image: portrait10 },
+    { id: 11, image: portrait11 },
+    { id: 12, image: portrait12 },
+    { id: 13, image: portrait13 },
+  ],
+  comicsGameTrailers: Array.from({ length: 5 }, (_, i) => ({
     id: i + 1,
-    image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Comic+${i + 1}`
-  }))
+    image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Comic+${i + 1}`,
+  })),
 };
 
 // Environments data (separate section)
-const environmentsData = [{
-  id: 0,
-  image: envFeatured,
-  featured: true
-}, {
-  id: 1,
-  image: env1
-}, {
-  id: 2,
-  image: env2
-}, {
-  id: 3,
-  image: env3
-}, {
-  id: 4,
-  image: env4
-}, {
-  id: 5,
-  image: env5
-}, {
-  id: 6,
-  image: env6
-}, {
-  id: 7,
-  image: env7
-}, {
-  id: 8,
-  image: env8
-}];
+const environmentsData = [
+  { id: 0, image: envFeatured, featured: true },
+  { id: 1, image: env1 },
+  { id: 2, image: env2 },
+  { id: 3, image: env3 },
+  { id: 4, image: env4 },
+  { id: 5, image: env5 },
+  { id: 6, image: env6 },
+  { id: 7, image: env7 },
+  { id: 8, image: env8 },
+];
 
 // Animation Clips data
-const animationClipsArt = Array.from({
-  length: 5
-}, (_, i) => ({
+const animationClipsArt = Array.from({ length: 5 }, (_, i) => ({
   id: i + 1,
-  gif: `https://via.placeholder.com/300x200/1a1a1a/d4af37?text=Animation+${i + 1}`
+  gif: `https://via.placeholder.com/300x200/1a1a1a/d4af37?text=Animation+${i + 1}`,
 }));
 
 // Video with Thumbnail Component
-const VideoWithThumbnail = ({
-  src,
-  featured = false
-}: {
-  src: string;
-  featured?: boolean;
-}) => {
+const VideoWithThumbnail = ({ src }: { src: string; featured?: boolean }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
@@ -247,40 +188,66 @@ const VideoWithThumbnail = ({
       return () => video.removeEventListener('canplaythrough', handleCanPlay);
     }
   }, []);
-  return <div className="relative w-full h-full">
-      {!isLoaded && <div className="absolute inset-0 bg-muted flex items-center justify-center">
+
+  return (
+    <div className="relative w-full h-full">
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-muted flex items-center justify-center">
           <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-        </div>}
-      <video ref={videoRef} src={src} autoPlay loop muted playsInline preload="auto" className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`} />
-    </div>;
+        </div>
+      )}
+      <video
+        ref={videoRef}
+        src={src}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      />
+    </div>
+  );
 };
 
 // Game Card Component
-const GameCard = ({
-  game
-}: {
-  game: typeof games[0];
-}) => {
+const GameCard = ({ game }: { game: (typeof games)[0] }) => {
   const [showGameplay, setShowGameplay] = useState(false);
   const [showBTS, setShowBTS] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
-  return <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
+
+  return (
+    <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
       <CardContent className="p-4 md:p-6">
         {/* Screenshots (2x3 grid) + GIF side by side */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Left: Screenshots 2x3 Grid */}
           <div className="lg:flex-1">
             <div className="grid grid-cols-3 gap-2">
-              {game.screenshots.slice(0, 6).map((screenshot, index) => <div key={index} className="aspect-video rounded-lg overflow-hidden cursor-pointer border-2 border-border/30 hover:border-primary/50 transition-all hover:scale-[1.02] shadow-md hover:shadow-lg" onClick={() => setZoomedImage(screenshot)}>
-                  <img src={screenshot} alt={`${game.title} screenshot ${index + 1}`} className="w-full h-full object-cover" />
-                </div>)}
+              {game.screenshots.slice(0, 6).map((screenshot, index) => (
+                <div
+                  key={index}
+                  className="aspect-video rounded-lg overflow-hidden cursor-pointer border-2 border-border/30 hover:border-primary/50 transition-all hover:scale-[1.02] shadow-md hover:shadow-lg"
+                  onClick={() => setZoomedImage(screenshot)}
+                >
+                  <img
+                    src={screenshot}
+                    alt={`${game.title} screenshot ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Right: GIF Thumbnail */}
           <div className="lg:w-[40%]">
             <div className="h-full rounded-lg overflow-hidden bg-muted border border-border/30">
-              <img src={game.gifPlaceholder} alt={`${game.title} preview`} className="w-full h-full object-cover" />
+              <img
+                src={game.gifPlaceholder}
+                alt={`${game.title} preview`}
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -315,10 +282,12 @@ const GameCard = ({
               </CollapsibleTrigger>
             </Collapsible>
 
-            {game.btsVideo && <Button size="sm" variant="outline" className="gap-2" onClick={() => setShowBTS(true)}>
+            {game.btsVideo && (
+              <Button size="sm" variant="outline" className="gap-2" onClick={() => setShowBTS(true)}>
                 <Film className="h-4 w-4" />
                 Behind the Scenes
-              </Button>}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -326,7 +295,13 @@ const GameCard = ({
         <Collapsible open={showGameplay} onOpenChange={setShowGameplay}>
           <CollapsibleContent>
             <div className="aspect-video rounded-lg overflow-hidden bg-black border border-border/30 mt-4">
-              <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${game.trailerVideoId}?autoplay=1`} title={`${game.title} Gameplay`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${game.trailerVideoId}?autoplay=1`}
+                title={`${game.title} Gameplay`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
           </CollapsibleContent>
         </Collapsible>
@@ -351,20 +326,17 @@ const GameCard = ({
           </DialogContent>
         </Dialog>
       </CardContent>
-    </Card>;
+    </Card>
+  );
 };
 
 // Section Header Component
-const SectionHeader = ({
-  title,
-  subtitle
-}: {
-  title: string;
-  subtitle?: string;
-}) => <div className="mb-8">
+const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
+  <div className="mb-8">
     <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-primary">{title}</h3>
     {subtitle && <p className="text-muted-foreground mt-2">{subtitle}</p>}
-  </div>;
+  </div>
+);
 
 // Category Grid Component
 const CategoryGrid = ({
@@ -372,29 +344,39 @@ const CategoryGrid = ({
   items,
   isGif = false,
   isVideo = false,
-  onImageClick
+  onImageClick,
 }: {
   title: string;
-  items: {
-    id: number;
-    image?: string;
-    gif?: string;
-    video?: string;
-  }[];
+  items: { id: number; image?: string; gif?: string; video?: string }[];
   isGif?: boolean;
   isVideo?: boolean;
   onImageClick?: (image: string) => void;
-}) => <div className="mb-10">
+}) => (
+  <div className="mb-10">
     <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">{title}</h4>
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {items.map(item => <div key={item.id} className={`aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all ${onImageClick ? 'cursor-pointer hover:scale-[1.02]' : ''}`} onClick={() => onImageClick && (isGif ? item.gif : item.image) && onImageClick(isGif ? item.gif! : item.image!)}>
-          {isVideo && item.video ? <video src={item.video} autoPlay loop muted playsInline className="w-full h-full object-cover" /> : <img src={isGif ? item.gif : item.image} alt={`${title} ${item.id}`} className="w-full h-full object-cover" />}
-        </div>)}
+      {items.map((item) => (
+        <div
+          key={item.id}
+          className={`aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all ${onImageClick ? 'cursor-pointer hover:scale-[1.02]' : ''}`}
+          onClick={() => onImageClick && (isGif ? item.gif : item.image) && onImageClick(isGif ? item.gif! : item.image!)}
+        >
+          {isVideo && item.video ? (
+            <video src={item.video} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+          ) : (
+            <img src={isGif ? item.gif : item.image} alt={`${title} ${item.id}`} className="w-full h-full object-cover" />
+          )}
+        </div>
+      ))}
     </div>
-  </div>;
+  </div>
+);
+
 const PortfolioSection = () => {
   const [zoomedArtImage, setZoomedArtImage] = useState<string | null>(null);
-  return <section id="portfolio" className="py-20 bg-background">
+
+  return (
+    <section id="portfolio" className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Title */}
         <div className="text-center mb-16">
@@ -409,9 +391,7 @@ const PortfolioSection = () => {
         {/* 1. GAMES SECTION */}
         <div id="games" className="mb-20">
           <SectionHeader title="Games" subtitle="Our collection of indie games" />
-          <div className="space-y-6">
-            {games.map(game => <GameCard key={game.id} game={game} />)}
-          </div>
+          <div className="space-y-6">{games.map((game) => <GameCard key={game.id} game={game} />)}</div>
         </div>
 
         {/* 2. 3D MODELS SECTION */}
@@ -419,17 +399,42 @@ const PortfolioSection = () => {
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
             {/* Featured large video - spans 2 columns */}
-            {models3DVideos.filter(item => item.featured).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/50 hover:border-primary md:col-span-2 md:row-span-2">
-                <VideoWithThumbnail src={item.video} featured={true} />
-              </div>)}
+            {models3DVideos
+              .filter((item) => item.featured)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/50 hover:border-primary md:col-span-2 md:row-span-2"
+                >
+                  <VideoWithThumbnail src={item.video} featured={true} />
+                </div>
+              ))}
+
             {/* First small video on right */}
-            {models3DVideos.filter(item => !item.featured).slice(0, 1).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors">
-                <VideoWithThumbnail src={item.video} />
-              </div>)}
+            {models3DVideos
+              .filter((item) => !item.featured)
+              .slice(0, 1)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+                >
+                  <VideoWithThumbnail src={item.video} />
+                </div>
+              ))}
+
             {/* Bottom row - 3 small videos */}
-            {models3DVideos.filter(item => !item.featured).slice(1, 4).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors">
-                <VideoWithThumbnail src={item.video} />
-              </div>)}
+            {models3DVideos
+              .filter((item) => !item.featured)
+              .slice(1, 4)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+                >
+                  <VideoWithThumbnail src={item.video} />
+                </div>
+              ))}
           </div>
         </div>
 
@@ -438,15 +443,45 @@ const PortfolioSection = () => {
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
             {/* Featured large environment - spans 2 columns */}
-            {environmentsData.filter(item => item.featured).map(item => {})}
+            {environmentsData
+              .filter((item) => item.featured)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="aspect-video rounded-lg overflow-hidden bg-muted border-2 border-primary/50 hover:border-primary md:col-span-2 md:row-span-2 cursor-pointer"
+                  onClick={() => setZoomedArtImage(item.image)}
+                >
+                  <img src={item.image} alt={`Featured environment ${item.id}`} className="w-full h-full object-cover" />
+                </div>
+              ))}
+
             {/* First small environment on right */}
-            {environmentsData.filter(item => !item.featured).slice(0, 1).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
-                <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
-              </div>)}
+            {environmentsData
+              .filter((item) => !item.featured)
+              .slice(0, 1)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]"
+                  onClick={() => setZoomedArtImage(item.image)}
+                >
+                  <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
+                </div>
+              ))}
+
             {/* Bottom row - remaining environments */}
-            {environmentsData.filter(item => !item.featured).slice(1).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
-                <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
-              </div>)}
+            {environmentsData
+              .filter((item) => !item.featured)
+              .slice(1)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]"
+                  onClick={() => setZoomedArtImage(item.image)}
+                >
+                  <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
+                </div>
+              ))}
           </div>
         </div>
 
@@ -454,16 +489,16 @@ const PortfolioSection = () => {
         <div className="mb-20">
           <SectionHeader title="Art" subtitle="Digital art and illustrations" />
 
-          <CategoryGrid title="Character Designs" items={artCategories.characterDesigns} onImageClick={setZoomedArtImage} />
-          
+          {/* Character Designs */}
+          <div className="mb-10">
+            <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">Character Designs</h4>
+            <CharacterDesignsGrid items={artCategories.characterDesigns} onImageClick={setZoomedArtImage} />
+          </div>
+
           {/* Digital Portraits */}
           <div className="mb-10">
             <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">Digital Portraits</h4>
-            <div className="columns-2 md:columns-4 lg:columns-6 gap-3 space-y-3">
-              {artCategories.digitalPortraits.map(portrait => <div key={portrait.id} className="break-inside-avoid rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(portrait.image)}>
-                  <img src={portrait.image} alt={`Portrait ${portrait.id}`} className="w-full h-auto" />
-                </div>)}
-            </div>
+            <DigitalPortraitsGrid items={artCategories.digitalPortraits} onImageClick={setZoomedArtImage} />
           </div>
 
           <CategoryGrid title="Comics / Game Trailers" items={artCategories.comicsGameTrailers} onImageClick={setZoomedArtImage} />
@@ -473,9 +508,14 @@ const PortfolioSection = () => {
         <div>
           <SectionHeader title="Animation Clips" subtitle="Motion and animated sequences" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {animationClipsArt.map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors">
+            {animationClipsArt.map((item) => (
+              <div
+                key={item.id}
+                className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors"
+              >
                 <img src={item.gif} alt={`Animation ${item.id}`} className="w-full h-full object-cover" />
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -489,6 +529,8 @@ const PortfolioSection = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default PortfolioSection;
