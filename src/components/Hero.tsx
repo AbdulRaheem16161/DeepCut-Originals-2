@@ -1,8 +1,20 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Gamepad2, Palette, Box, TreePine, Film } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import heroCharacter from '@/assets/hero-character-new.png';
 
+const navButtons = [
+  { label: 'Games', icon: Gamepad2, target: 'games' },
+  { label: 'Art', icon: Palette, target: 'art' },
+  { label: '3D Models', icon: Box, target: '3d-models' },
+  { label: 'Environments', icon: TreePine, target: 'environments' },
+  { label: 'Trailers', icon: Film, target: 'comics-trailers' },
+];
+
 const Hero = () => {
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-background">
       {/* Subtle Background Pattern */}
@@ -26,11 +38,27 @@ const Hero = () => {
               <Button
                 className="btn-gaming text-lg px-10 py-7 lg:hover:scale-105 lg:transition-transform lg:duration-300"
                 size="lg"
-                onClick={() => document.getElementById('games')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => scrollToSection('games')}
               >
                 Explore Our Games
                 <ArrowRight className="ml-2 h-6 w-6" />
               </Button>
+            </div>
+
+            {/* Navigation Shortcuts */}
+            <div className="flex flex-wrap justify-center lg:justify-start gap-3 pt-4">
+              {navButtons.map((btn) => (
+                <Button
+                  key={btn.target}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 border-border/50 hover:border-primary/50 hover:bg-primary/10"
+                  onClick={() => scrollToSection(btn.target)}
+                >
+                  <btn.icon className="h-4 w-4" />
+                  {btn.label}
+                </Button>
+              ))}
             </div>
           </div>
 
