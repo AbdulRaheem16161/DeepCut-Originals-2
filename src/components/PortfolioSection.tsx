@@ -169,13 +169,7 @@ const artCategories = {
   }, {
     id: 13,
     image: portrait13
-  }],
-  comicsGameTrailers: Array.from({
-    length: 5
-  }, (_, i) => ({
-    id: i + 1,
-    image: `https://via.placeholder.com/300x300/1a1a1a/d4af37?text=Comic+${i + 1}`
-  }))
+  }]
 };
 
 // Environments data (separate section)
@@ -209,13 +203,6 @@ const environmentsData = [{
   image: env8
 }];
 
-// Animation Clips data
-const animationClipsArt = Array.from({
-  length: 5
-}, (_, i) => ({
-  id: i + 1,
-  gif: `https://via.placeholder.com/300x200/1a1a1a/d4af37?text=Animation+${i + 1}`
-}));
 
 // Video with Thumbnail Component
 const VideoWithThumbnail = ({
@@ -395,17 +382,34 @@ const PortfolioSection = () => {
         </div>
 
         {/* 2. 3D MODELS SECTION */}
-        <div className="mb-20">
+        <div id="3d-models" className="mb-20">
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
-          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {models3DVideos.map(model => (
+              <div key={model.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all">
+                <video
+                  src={model.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* 4. ENVIRONMENTS SECTION */}
-        <div className="mb-20">
+        <div id="environments" className="mb-20">
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
             {/* Featured large environment - spans 2 columns */}
-            {environmentsData.filter(item => item.featured).map(item => {})}
+            {environmentsData.filter(item => item.featured).map(item => (
+              <div key={item.id} className="md:col-span-2 aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.01]" onClick={() => setZoomedArtImage(item.image)}>
+                <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
 
             {/* First small environment on right */}
             {environmentsData.filter(item => !item.featured).slice(0, 1).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
@@ -420,7 +424,7 @@ const PortfolioSection = () => {
         </div>
 
         {/* 5. ART SECTION */}
-        <div className="mb-20">
+        <div id="art" className="mb-20">
           <SectionHeader title="Art" subtitle="Digital art and illustrations" />
 
           {/* Character Designs */}
@@ -433,18 +437,6 @@ const PortfolioSection = () => {
           <div className="mb-10">
             <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">Digital Portraits</h4>
             <DigitalPortraitsGrid items={artCategories.digitalPortraits} onImageClick={setZoomedArtImage} />
-          </div>
-
-          <CategoryGrid title="Comics / Game Trailers" items={artCategories.comicsGameTrailers} onImageClick={setZoomedArtImage} />
-        </div>
-
-        {/* 5. ANIMATION CLIPS SECTION */}
-        <div>
-          <SectionHeader title="Animation Clips" subtitle="Motion and animated sequences" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {animationClipsArt.map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-colors">
-                <img src={item.gif} alt={`Animation ${item.id}`} className="w-full h-full object-cover" />
-              </div>)}
           </div>
         </div>
 
