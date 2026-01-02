@@ -102,11 +102,7 @@ const games = [{
 // NOTE: Only include videos that actually exist in /public/videos to avoid broken previews.
 const models3DVideos = [{
   id: 1,
-  video: '/videos/3d-model-6-upload.mp4',
-  featured: true
-}, {
-  id: 2,
-  video: '/videos/3d-model-6.mp4'
+  video: '/videos/3d-model-6-upload.mp4'
 }];
 
 // Art data
@@ -174,10 +170,6 @@ const artCategories = {
 
 // Environments data (separate section)
 const environmentsData = [{
-  id: 0,
-  image: envFeatured,
-  featured: true
-}, {
   id: 1,
   image: env1
 }, {
@@ -403,23 +395,12 @@ const PortfolioSection = () => {
         {/* 4. ENVIRONMENTS SECTION */}
         <div id="environments" className="mb-20">
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
-            {/* Featured large environment - spans 2 columns */}
-            {environmentsData.filter(item => item.featured).map(item => (
-              <div key={item.id} className="md:col-span-2 aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.01]" onClick={() => setZoomedArtImage(item.image)}>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {environmentsData.map(item => (
+              <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
                 <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
               </div>
             ))}
-
-            {/* First small environment on right */}
-            {environmentsData.filter(item => !item.featured).slice(0, 1).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
-                  <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
-                </div>)}
-
-            {/* Bottom row - remaining environments */}
-            {environmentsData.filter(item => !item.featured).slice(1).map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
-                  <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
-                </div>)}
           </div>
         </div>
 
