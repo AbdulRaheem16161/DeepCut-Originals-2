@@ -100,9 +100,12 @@ const games = [{
 
 // 3D Models data
 // NOTE: Only include videos that actually exist in /public/videos to avoid broken previews.
+import model3DPlaceholder from '@/assets/3d-model-placeholder.png';
+
 const models3DVideos = [{
   id: 1,
-  video: '/videos/3d-model-6-upload.mp4'
+  video: '/videos/3d-model-6-upload.mp4',
+  placeholder: model3DPlaceholder
 }];
 
 // Art data
@@ -196,24 +199,54 @@ const environmentsData = [{
 }];
 
 
-// Video with Thumbnail Component
-const VideoWithThumbnail = ({
-  src
+// 3D Model Card with Placeholder
+const Model3DCard = ({
+  model
 }: {
-  src: string;
-  featured?: boolean;
+  model: { id: number; video: string; placeholder?: string };
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      const handleCanPlay = () => setIsLoaded(true);
+      const handleCanPlay = () => setIsVideoLoaded(true);
       video.addEventListener('canplaythrough', handleCanPlay);
+      // Check if already loaded
+      if (video.readyState >= 3) {
+        setIsVideoLoaded(true);
+      }
       return () => video.removeEventListener('canplaythrough', handleCanPlay);
     }
   }, []);
-  return;
+
+  return (
+    <div className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all relative">
+      {/* Placeholder image - shown until video loads */}
+      {model.placeholder && (
+        <img
+          src={model.placeholder}
+          alt="Loading preview..."
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+            isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        />
+      )}
+      {/* Video - fades in when loaded */}
+      <video
+        ref={videoRef}
+        src={model.video}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className={`w-full h-full object-cover transition-opacity duration-500 ${
+          isVideoLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+    </div>
+  );
 };
 
 // Game Card Component
@@ -378,16 +411,7 @@ const PortfolioSection = () => {
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {models3DVideos.map(model => (
-              <div key={model.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all">
-                <video
-                  src={model.video}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <Model3DCard key={model.id} model={model} />
             ))}
           </div>
         </div>
