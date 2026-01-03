@@ -102,11 +102,15 @@ const games = [{
 // NOTE: Only include videos that actually exist in /public/videos to avoid broken previews.
 import model3DPlaceholder from '@/assets/3d-model-placeholder.png';
 
-const models3DVideos = [{
-  id: 1,
-  video: '/videos/3d-model-6-upload.mp4',
-  placeholder: model3DPlaceholder
-}];
+const models3DVideos = [
+  { id: 1, video: '/videos/3d-model-alosaurus.mp4', title: 'Alosaurus', featured: true },
+  { id: 2, video: '/videos/3d-model-6-upload.mp4', placeholder: model3DPlaceholder },
+  { id: 3, video: '/videos/3d-model-trex.mp4', title: 'T-Rex' },
+  { id: 4, video: '/videos/3d-model-car.mp4', title: 'Car' },
+  { id: 5, video: '/videos/3d-model-compressed.mp4', title: 'Character' },
+  { id: 6, video: '/videos/3d-model-huts.mp4', title: 'Huts' },
+  { id: 7, video: '/videos/3d-model-japanese-house.mp4', title: 'Japanese House' },
+];
 
 // Art data
 const artCategories = {
@@ -201,9 +205,11 @@ const environmentsData = [{
 
 // 3D Model Card with Placeholder
 const Model3DCard = ({
-  model
+  model,
+  featured = false
 }: {
-  model: { id: number; video: string; placeholder?: string };
+  model: { id: number; video: string; placeholder?: string; title?: string; featured?: boolean };
+  featured?: boolean;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -222,7 +228,11 @@ const Model3DCard = ({
   }, []);
 
   return (
-    <div className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all relative">
+    <div className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative group ${
+      featured 
+        ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' 
+        : 'border-border/30 hover:border-primary/50'
+    }`}>
       {/* Placeholder image - shown until video loads */}
       {model.placeholder && (
         <img
@@ -245,6 +255,15 @@ const Model3DCard = ({
           isVideoLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
+      {/* Title overlay */}
+      {model.title && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+          <p className={`font-orbitron font-semibold ${featured ? 'text-primary' : 'text-foreground'}`}>
+            {model.title}
+            {featured && <span className="ml-2 text-xs bg-primary/20 text-primary px-2 py-0.5 rounded">Featured</span>}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
@@ -409,8 +428,17 @@ const PortfolioSection = () => {
         {/* 2. 3D MODELS SECTION */}
         <div id="3d-models" className="mb-20">
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {models3DVideos.map(model => (
+          
+          {/* Featured Alosaurus - Full Width */}
+          {models3DVideos.filter(m => m.featured).map(model => (
+            <div key={model.id} className="mb-6">
+              <Model3DCard model={model} featured />
+            </div>
+          ))}
+          
+          {/* Other Models - Responsive Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {models3DVideos.filter(m => !m.featured).map(model => (
               <Model3DCard key={model.id} model={model} />
             ))}
           </div>
