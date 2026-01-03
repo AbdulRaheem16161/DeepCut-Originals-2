@@ -111,11 +111,10 @@ import placeholderJapaneseHouse from '@/assets/placeholder-japanese-house.png';
 const models3DVideos = [
   { id: 1, video: '/videos/3d-model-alosaurus.mp4', placeholder: placeholderAlosaurus, featured: true },
   { id: 2, video: '/videos/3d-model-6-upload.mp4', placeholder: model3DPlaceholder },
-  { id: 3, video: '/videos/3d-model-trex.mp4', placeholder: placeholderTrex },
-  { id: 4, video: '/videos/3d-model-car.mp4', placeholder: placeholderCar },
-  { id: 5, video: '/videos/3d-model-compressed.mp4', placeholder: placeholderCompressed },
-  { id: 6, video: '/videos/3d-model-huts.mp4', placeholder: placeholderHuts },
-  { id: 7, video: '/videos/3d-model-japanese-house.mp4', placeholder: placeholderJapaneseHouse },
+  { id: 3, video: '/videos/3d-model-car.mp4', placeholder: placeholderCar },
+  { id: 4, video: '/videos/3d-model-trex.mp4', placeholder: placeholderTrex },
+  { id: 5, video: '/videos/3d-model-huts.mp4', placeholder: placeholderHuts },
+  { id: 6, video: '/videos/3d-model-japanese-house.mp4', placeholder: placeholderJapaneseHouse },
 ];
 
 // Art data
@@ -182,6 +181,13 @@ const artCategories = {
 };
 
 // Environments data (separate section)
+// Featured environment is a video (Night City)
+const featuredEnvironment = {
+  id: 0,
+  video: '/videos/3d-model-compressed.mp4',
+  placeholder: placeholderCompressed,
+};
+
 const environmentsData = [{
   id: 1,
   image: env1
@@ -233,21 +239,37 @@ const Model3DCard = ({
     }
   }, []);
 
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
-    <div className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative ${
-      featured 
-        ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' 
-        : 'border-border/30 hover:border-primary/50'
-    }`}>
+    <div 
+      className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative ${
+        featured 
+          ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' 
+          : 'border-border/30 hover:border-primary/50'
+      }`}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       {/* Placeholder image - shown until video loads */}
       {model.placeholder && (
-        <img
-          src={model.placeholder}
-          alt=""
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-            isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
-        />
+        <div className={`absolute inset-0 transition-opacity duration-500 ${
+          isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}>
+          <img
+            src={model.placeholder}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          {/* Loading indicator on hover */}
+          {isHovering && !isVideoLoaded && (
+            <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+              <span className="text-primary font-orbitron text-sm md:text-base animate-pulse">
+                Loading Preview...
+              </span>
+            </div>
+          )}
+        </div>
       )}
       {/* Video - fades in when loaded */}
       <video
@@ -439,6 +461,13 @@ const PortfolioSection = () => {
         {/* 4. ENVIRONMENTS SECTION */}
         <div id="environments" className="mb-20">
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
+          
+          {/* Featured Environment (Night City Video) */}
+          <div className="mb-4">
+            <Model3DCard model={featuredEnvironment} featured />
+          </div>
+          
+          {/* Environment Images Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {environmentsData.map(item => (
               <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
