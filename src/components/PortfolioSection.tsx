@@ -101,15 +101,21 @@ const games = [{
 // 3D Models data
 // NOTE: Only include videos that actually exist in /public/videos to avoid broken previews.
 import model3DPlaceholder from '@/assets/3d-model-placeholder.png';
+import placeholderAlosaurus from '@/assets/placeholder-alosaurus.png';
+import placeholderTrex from '@/assets/placeholder-trex.png';
+import placeholderCar from '@/assets/placeholder-car.png';
+import placeholderCompressed from '@/assets/placeholder-compressed.png';
+import placeholderHuts from '@/assets/placeholder-huts.png';
+import placeholderJapaneseHouse from '@/assets/placeholder-japanese-house.png';
 
 const models3DVideos = [
-  { id: 1, video: '/videos/3d-model-alosaurus.mp4', title: 'Alosaurus', featured: true },
+  { id: 1, video: '/videos/3d-model-alosaurus.mp4', placeholder: placeholderAlosaurus, featured: true },
   { id: 2, video: '/videos/3d-model-6-upload.mp4', placeholder: model3DPlaceholder },
-  { id: 3, video: '/videos/3d-model-trex.mp4', title: 'T-Rex' },
-  { id: 4, video: '/videos/3d-model-car.mp4', title: 'Car' },
-  { id: 5, video: '/videos/3d-model-compressed.mp4', title: 'Character' },
-  { id: 6, video: '/videos/3d-model-huts.mp4', title: 'Huts' },
-  { id: 7, video: '/videos/3d-model-japanese-house.mp4', title: 'Japanese House' },
+  { id: 3, video: '/videos/3d-model-trex.mp4', placeholder: placeholderTrex },
+  { id: 4, video: '/videos/3d-model-car.mp4', placeholder: placeholderCar },
+  { id: 5, video: '/videos/3d-model-compressed.mp4', placeholder: placeholderCompressed },
+  { id: 6, video: '/videos/3d-model-huts.mp4', placeholder: placeholderHuts },
+  { id: 7, video: '/videos/3d-model-japanese-house.mp4', placeholder: placeholderJapaneseHouse },
 ];
 
 // Art data
@@ -208,7 +214,7 @@ const Model3DCard = ({
   model,
   featured = false
 }: {
-  model: { id: number; video: string; placeholder?: string; title?: string; featured?: boolean };
+  model: { id: number; video: string; placeholder?: string; featured?: boolean };
   featured?: boolean;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -228,7 +234,7 @@ const Model3DCard = ({
   }, []);
 
   return (
-    <div className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative group ${
+    <div className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative ${
       featured 
         ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' 
         : 'border-border/30 hover:border-primary/50'
@@ -237,7 +243,7 @@ const Model3DCard = ({
       {model.placeholder && (
         <img
           src={model.placeholder}
-          alt="Loading preview..."
+          alt=""
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
             isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
@@ -255,15 +261,6 @@ const Model3DCard = ({
           isVideoLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
-      {/* Title overlay */}
-      {model.title && (
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <p className={`font-orbitron font-semibold ${featured ? 'text-primary' : 'text-foreground'}`}>
-            {model.title}
-            {featured && <span className="ml-2 text-xs bg-primary/20 text-primary px-2 py-0.5 rounded">Featured</span>}
-          </p>
-        </div>
-      )}
     </div>
   );
 };
@@ -429,17 +426,12 @@ const PortfolioSection = () => {
         <div id="3d-models" className="mb-20">
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
           
-          {/* Featured Alosaurus - Full Width */}
-          {models3DVideos.filter(m => m.featured).map(model => (
-            <div key={model.id} className="mb-6">
-              <Model3DCard model={model} featured />
-            </div>
-          ))}
-          
-          {/* Other Models - Responsive Grid */}
+          {/* All Models in a Grid - Featured spans 2 cols on larger screens */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {models3DVideos.filter(m => !m.featured).map(model => (
-              <Model3DCard key={model.id} model={model} />
+            {models3DVideos.map(model => (
+              <div key={model.id} className={model.featured ? 'col-span-2 md:col-span-2' : ''}>
+                <Model3DCard model={model} featured={model.featured} />
+              </div>
             ))}
           </div>
         </div>
