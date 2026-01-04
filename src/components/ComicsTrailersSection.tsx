@@ -5,10 +5,14 @@ import { Slider } from '@/components/ui/slider';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+import trailerPlaceholder1 from '@/assets/trailer-placeholder-1.png';
+import trailerPlaceholder2 from '@/assets/trailer-placeholder-2.png';
+import trailerPlaceholder3 from '@/assets/trailer-placeholder-3.png';
+
 const trailerVideos = [
-  { id: 1, src: '/videos/trailer-1.mp4' },
-  { id: 2, src: '/videos/trailer-2.mp4' },
-  { id: 3, src: '/videos/trailer-3.mp4' },
+  { id: 1, src: '/videos/trailer-1.mp4', placeholder: trailerPlaceholder1 },
+  { id: 2, src: '/videos/trailer-2.mp4', placeholder: trailerPlaceholder2 },
+  { id: 3, src: '/videos/trailer-3.mp4', placeholder: trailerPlaceholder3 },
 ];
 
 const ComicsTrailersSection = () => {
@@ -22,6 +26,8 @@ const ComicsTrailersSection = () => {
     2: 50,
     3: 50,
   });
+  const [loadedVideos, setLoadedVideos] = useState<Record<number, boolean>>({});
+  const [hoveredPlaceholder, setHoveredPlaceholder] = useState<number | null>(null);
   const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const isMobile = useIsMobile();
@@ -60,6 +66,10 @@ const ComicsTrailersSection = () => {
     }
   };
 
+  const handleVideoLoaded = (id: number) => {
+    setLoadedVideos((prev) => ({ ...prev, [id]: true }));
+  };
+
   return (
     <section id="comics-trailers" className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
@@ -79,7 +89,25 @@ const ComicsTrailersSection = () => {
             <div
               key={video.id}
               className="relative aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all group"
+              onMouseEnter={() => !loadedVideos[video.id] && setHoveredPlaceholder(video.id)}
+              onMouseLeave={() => setHoveredPlaceholder(null)}
             >
+              {/* Placeholder Image */}
+              {!loadedVideos[video.id] && (
+                <div className="absolute inset-0 z-10">
+                  <img
+                    src={video.placeholder}
+                    alt="Loading preview"
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Loading Preview Text on Hover */}
+                  {hoveredPlaceholder === video.id && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <span className="text-primary font-orbitron text-sm">Loading Preview...</span>
+                    </div>
+                  )}
+                </div>
+              )}
               <video
                 ref={(el) => {
                   videoRefs.current[video.id] = el;
@@ -91,9 +119,10 @@ const ComicsTrailersSection = () => {
                 playsInline
                 className="w-full h-full object-cover cursor-pointer"
                 onClick={() => setFullscreenVideo(video.src)}
+                onCanPlayThrough={() => handleVideoLoaded(video.id)}
               />
               {/* Volume Controls */}
-              <div className="absolute bottom-3 right-3 flex items-center gap-2">
+              <div className="absolute bottom-3 right-3 flex items-center gap-2 z-20">
                 {/* Volume Slider - Desktop only */}
                 {!isMobile && !mutedStates[video.id] && (
                   <div className="w-20 h-8 flex items-center bg-background/80 rounded-md px-2 opacity-0 group-hover:opacity-100 transition-opacity">
