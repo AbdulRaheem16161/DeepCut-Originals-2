@@ -108,15 +108,32 @@ import placeholderCar from '@/assets/placeholder-car.png';
 import placeholderCompressed from '@/assets/placeholder-compressed.png';
 import placeholderHuts from '@/assets/placeholder-huts.png';
 import placeholderJapaneseHouse from '@/assets/placeholder-japanese-house.png';
-
-const models3DVideos = [
-  { id: 1, video: '/videos/3d-model-alosaurus.mp4', placeholder: placeholderAlosaurus, featured: true },
-  { id: 2, video: '/videos/3d-model-6-upload.mp4', placeholder: model3DPlaceholder },
-  { id: 3, video: '/videos/3d-model-car.mp4', placeholder: placeholderCar },
-  { id: 4, video: '/videos/3d-model-trex.mp4', placeholder: placeholderTrex },
-  { id: 5, video: '/videos/3d-model-huts.mp4', placeholder: placeholderHuts },
-  { id: 6, video: '/videos/3d-model-japanese-house.mp4', placeholder: placeholderJapaneseHouse },
-];
+const models3DVideos = [{
+  id: 1,
+  video: '/videos/3d-model-alosaurus.mp4',
+  placeholder: placeholderAlosaurus,
+  featured: true
+}, {
+  id: 2,
+  video: '/videos/3d-model-6-upload.mp4',
+  placeholder: model3DPlaceholder
+}, {
+  id: 3,
+  video: '/videos/3d-model-car.mp4',
+  placeholder: placeholderCar
+}, {
+  id: 4,
+  video: '/videos/3d-model-trex.mp4',
+  placeholder: placeholderTrex
+}, {
+  id: 5,
+  video: '/videos/3d-model-huts.mp4',
+  placeholder: placeholderHuts
+}, {
+  id: 6,
+  video: '/videos/3d-model-japanese-house.mp4',
+  placeholder: placeholderJapaneseHouse
+}];
 
 // Art data
 const artCategories = {
@@ -182,18 +199,34 @@ const artCategories = {
 };
 
 // Environments data (separate section - 9 items in 3x3 grid)
-const environmentsData = [
-  { id: 1, image: env1 },
-  { id: 2, image: env2 },
-  { id: 3, image: env3 },
-  { id: 4, image: env4 },
-  { id: 5, image: env5 },
-  { id: 6, image: env6 },
-  { id: 7, image: env7 },
-  { id: 8, image: env8 },
-  { id: 9, image: env9 },
-];
-
+const environmentsData = [{
+  id: 1,
+  image: env1
+}, {
+  id: 2,
+  image: env2
+}, {
+  id: 3,
+  image: env3
+}, {
+  id: 4,
+  image: env4
+}, {
+  id: 5,
+  image: env5
+}, {
+  id: 6,
+  image: env6
+}, {
+  id: 7,
+  image: env7
+}, {
+  id: 8,
+  image: env8
+}, {
+  id: 9,
+  image: env9
+}];
 
 // 3D Model Card with Placeholder
 const Model3DCard = ({
@@ -201,13 +234,17 @@ const Model3DCard = ({
   featured = false,
   onVideoClick
 }: {
-  model: { id: number; video: string; placeholder?: string; featured?: boolean };
+  model: {
+    id: number;
+    video: string;
+    placeholder?: string;
+    featured?: boolean;
+  };
   featured?: boolean;
   onVideoClick?: (videoSrc: string) => void;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
@@ -220,54 +257,21 @@ const Model3DCard = ({
       return () => video.removeEventListener('canplaythrough', handleCanPlay);
     }
   }, []);
-
   const [isHovering, setIsHovering] = useState(false);
-
-  return (
-    <div 
-      className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative cursor-pointer ${
-        featured 
-          ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' 
-          : 'border-border/30 hover:border-primary/50'
-      }`}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-      onClick={() => onVideoClick?.(model.video)}
-    >
+  return <div className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative cursor-pointer ${featured ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' : 'border-border/30 hover:border-primary/50'}`} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)} onClick={() => onVideoClick?.(model.video)}>
       {/* Placeholder image - shown until video loads */}
-      {model.placeholder && (
-        <div className={`absolute inset-0 transition-opacity duration-500 ${
-          isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}>
-          <img
-            src={model.placeholder}
-            alt=""
-            className="w-full h-full object-cover"
-          />
+      {model.placeholder && <div className={`absolute inset-0 transition-opacity duration-500 ${isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          <img src={model.placeholder} alt="" className="w-full h-full object-cover" />
           {/* Loading indicator on hover */}
-          {isHovering && !isVideoLoaded && (
-            <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+          {isHovering && !isVideoLoaded && <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
               <span className="text-primary font-orbitron text-sm md:text-base animate-pulse">
                 Loading Preview...
               </span>
-            </div>
-          )}
-        </div>
-      )}
+            </div>}
+        </div>}
       {/* Video - fades in when loaded */}
-      <video
-        ref={videoRef}
-        src={model.video}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className={`w-full h-full object-cover transition-opacity duration-500 ${
-          isVideoLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
-    </div>
-  );
+      <video ref={videoRef} src={model.video} autoPlay loop muted playsInline className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} />
+    </div>;
 };
 
 // Game Card Component
@@ -434,11 +438,9 @@ const PortfolioSection = () => {
           
           {/* All Models in a Grid - Featured spans 2 cols on larger screens */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {models3DVideos.map(model => (
-              <div key={model.id} className={model.featured ? 'col-span-2 md:col-span-2' : ''}>
+            {models3DVideos.map(model => <div key={model.id} className="">
                 <Model3DCard model={model} featured={model.featured} onVideoClick={setFullscreenVideo} />
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
 
@@ -448,11 +450,9 @@ const PortfolioSection = () => {
           
           {/* Environment Images Grid - 3x3 grid */}
           <div className="grid grid-cols-3 gap-4">
-            {environmentsData.map(item => (
-              <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
+            {environmentsData.map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
                 <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
 
@@ -489,15 +489,7 @@ const PortfolioSection = () => {
             <DialogClose className="absolute right-4 top-4 z-10">
               <X className="h-6 w-6 text-white" />
             </DialogClose>
-            {fullscreenVideo && (
-              <video
-                src={fullscreenVideo}
-                autoPlay
-                loop
-                controls
-                className="w-full h-full object-contain"
-              />
-            )}
+            {fullscreenVideo && <video src={fullscreenVideo} autoPlay loop controls className="w-full h-full object-contain" />}
           </DialogContent>
         </Dialog>
       </div>
