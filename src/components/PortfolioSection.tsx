@@ -192,9 +192,6 @@ const artCategories = {
   }, {
     id: 12,
     image: portrait12
-  }, {
-    id: 13,
-    image: portrait13
   }]
 };
 
