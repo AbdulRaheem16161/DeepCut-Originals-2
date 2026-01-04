@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
+import { Volume2, VolumeX, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const trailerVideos = [
   { id: 1, src: '/videos/trailer-1.mp4' },
@@ -14,7 +17,14 @@ const ComicsTrailersSection = () => {
     2: true,
     3: true,
   });
+  const [volumeStates, setVolumeStates] = useState<Record<number, number>>({
+    1: 50,
+    2: 50,
+    3: 50,
+  });
+  const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
+  const isMobile = useIsMobile();
 
   const toggleMute = (id: number) => {
     setMutedStates((prev) => {
@@ -22,9 +32,32 @@ const ComicsTrailersSection = () => {
       const video = videoRefs.current[id];
       if (video) {
         video.muted = newState[id];
+        // Restore volume when unmuting
+        if (!newState[id]) {
+          video.volume = volumeStates[id] / 100;
+        }
       }
       return newState;
     });
+  };
+
+  const handleVolumeChange = (id: number, value: number[]) => {
+    const volume = value[0];
+    setVolumeStates((prev) => ({ ...prev, [id]: volume }));
+    const video = videoRefs.current[id];
+    if (video) {
+      video.volume = volume / 100;
+      // Auto-unmute when adjusting volume
+      if (volume > 0 && mutedStates[id]) {
+        video.muted = false;
+        setMutedStates((prev) => ({ ...prev, [id]: false }));
+      }
+      // Auto-mute when volume is 0
+      if (volume === 0 && !mutedStates[id]) {
+        video.muted = true;
+        setMutedStates((prev) => ({ ...prev, [id]: true }));
+      }
+    }
   };
 
   return (
@@ -56,25 +89,62 @@ const ComicsTrailersSection = () => {
                 loop
                 muted={mutedStates[video.id]}
                 playsInline
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => setFullscreenVideo(video.src)}
               />
-              {/* Mute/Unmute Toggle */}
-              <Button
-                size="icon"
-                variant="secondary"
-                className="absolute bottom-3 right-3 opacity-80 hover:opacity-100 transition-opacity bg-background/80 hover:bg-background"
-                onClick={() => toggleMute(video.id)}
-              >
-                {mutedStates[video.id] ? (
-                  <VolumeX className="h-4 w-4" />
-                ) : (
-                  <Volume2 className="h-4 w-4" />
+              {/* Volume Controls */}
+              <div className="absolute bottom-3 right-3 flex items-center gap-2">
+                {/* Volume Slider - Desktop only */}
+                {!isMobile && !mutedStates[video.id] && (
+                  <div className="w-20 h-8 flex items-center bg-background/80 rounded-md px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Slider
+                      value={[volumeStates[video.id]]}
+                      onValueChange={(value) => handleVolumeChange(video.id, value)}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
+                  </div>
                 )}
-              </Button>
+                {/* Mute/Unmute Toggle */}
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="opacity-80 hover:opacity-100 transition-opacity bg-background/80 hover:bg-background"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMute(video.id);
+                  }}
+                >
+                  {mutedStates[video.id] ? (
+                    <VolumeX className="h-4 w-4" />
+                  ) : (
+                    <Volume2 className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Fullscreen Video Dialog */}
+      <Dialog open={!!fullscreenVideo} onOpenChange={() => setFullscreenVideo(null)}>
+        <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95">
+          <DialogClose className="absolute right-4 top-4 z-10">
+            <X className="h-6 w-6 text-white" />
+          </DialogClose>
+          {fullscreenVideo && (
+            <video
+              src={fullscreenVideo}
+              autoPlay
+              loop
+              controls
+              className="w-full h-full object-contain"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

@@ -63,6 +63,7 @@ import env5 from '@/assets/env-5.png';
 import env6 from '@/assets/env-6.png';
 import env7 from '@/assets/env-7.png';
 import env8 from '@/assets/env-8.png';
+import env9 from '@/assets/env-9.png';
 
 // Game data
 const games = [{
@@ -180,48 +181,29 @@ const artCategories = {
   }]
 };
 
-// Environments data (separate section)
-// Featured environment is a video (Night City)
-const featuredEnvironment = {
-  id: 0,
-  video: '/videos/3d-model-compressed.mp4',
-  placeholder: placeholderCompressed,
-};
-
-const environmentsData = [{
-  id: 1,
-  image: env1
-}, {
-  id: 2,
-  image: env2
-}, {
-  id: 3,
-  image: env3
-}, {
-  id: 4,
-  image: env4
-}, {
-  id: 5,
-  image: env5
-}, {
-  id: 6,
-  image: env6
-}, {
-  id: 7,
-  image: env7
-}, {
-  id: 8,
-  image: env8
-}];
+// Environments data (separate section - 9 items in 3x3 grid)
+const environmentsData = [
+  { id: 1, image: env1 },
+  { id: 2, image: env2 },
+  { id: 3, image: env3 },
+  { id: 4, image: env4 },
+  { id: 5, image: env5 },
+  { id: 6, image: env6 },
+  { id: 7, image: env7 },
+  { id: 8, image: env8 },
+  { id: 9, image: env9 },
+];
 
 
 // 3D Model Card with Placeholder
 const Model3DCard = ({
   model,
-  featured = false
+  featured = false,
+  onVideoClick
 }: {
   model: { id: number; video: string; placeholder?: string; featured?: boolean };
   featured?: boolean;
+  onVideoClick?: (videoSrc: string) => void;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -243,13 +225,14 @@ const Model3DCard = ({
 
   return (
     <div 
-      className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative ${
+      className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative cursor-pointer ${
         featured 
           ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' 
           : 'border-border/30 hover:border-primary/50'
       }`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onClick={() => onVideoClick?.(model.video)}
     >
       {/* Placeholder image - shown until video loads */}
       {model.placeholder && (
@@ -426,6 +409,7 @@ const CategoryGrid = ({
   </div>;
 const PortfolioSection = () => {
   const [zoomedArtImage, setZoomedArtImage] = useState<string | null>(null);
+  const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
   return <section id="portfolio" className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Title */}
@@ -452,7 +436,7 @@ const PortfolioSection = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {models3DVideos.map(model => (
               <div key={model.id} className={model.featured ? 'col-span-2 md:col-span-2' : ''}>
-                <Model3DCard model={model} featured={model.featured} />
+                <Model3DCard model={model} featured={model.featured} onVideoClick={setFullscreenVideo} />
               </div>
             ))}
           </div>
@@ -462,13 +446,8 @@ const PortfolioSection = () => {
         <div id="environments" className="mb-20">
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
           
-          {/* Featured Environment (Night City Video) */}
-          <div className="mb-4">
-            <Model3DCard model={featuredEnvironment} featured />
-          </div>
-          
-          {/* Environment Images Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* Environment Images Grid - 3x3 grid */}
+          <div className="grid grid-cols-3 gap-4">
             {environmentsData.map(item => (
               <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
                 <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
@@ -501,6 +480,24 @@ const PortfolioSection = () => {
               <X className="h-6 w-6 text-white" />
             </DialogClose>
             {zoomedArtImage && <img src={zoomedArtImage} alt="Zoomed art" className="w-full h-full object-contain" />}
+          </DialogContent>
+        </Dialog>
+
+        {/* Fullscreen Video Dialog */}
+        <Dialog open={!!fullscreenVideo} onOpenChange={() => setFullscreenVideo(null)}>
+          <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95">
+            <DialogClose className="absolute right-4 top-4 z-10">
+              <X className="h-6 w-6 text-white" />
+            </DialogClose>
+            {fullscreenVideo && (
+              <video
+                src={fullscreenVideo}
+                autoPlay
+                loop
+                controls
+                className="w-full h-full object-contain"
+              />
+            )}
           </DialogContent>
         </Dialog>
       </div>
