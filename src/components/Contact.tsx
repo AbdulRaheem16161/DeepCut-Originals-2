@@ -63,14 +63,14 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-background">
+    <section id="contact" className="py-20 bg-gradient-to-b from-background to-background/95">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-inter font-bold mb-6 text-foreground">
-            Let's <span className="text-primary">Connect</span>
+          <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6 text-foreground tracking-tight">
+            Let's <span className="text-primary drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)]">Connect</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Ready to bring your gaming vision to life? We'd love to hear from you.
             Whether you have a project in mind or just want to say hello, drop us a line!
           </p>
@@ -79,31 +79,38 @@ const Contact = () => {
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
             {/* Contact Information */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               {contactInfo.map((contact, index) => {
                 const IconComponent = contact.icon;
                 return (
                   <Card
                     key={index}
-                    className="card-gaming group cursor-pointer hover:border-primary/30 transition-all duration-200 hover:shadow-sm"
+                    className="group cursor-pointer bg-card/30 backdrop-blur-md border border-border/40 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"
                     onClick={() => window.open(contact.link, '_blank')}
                   >
-                    <div className="flex items-start space-x-4">
+                    <div className="p-5 flex items-center gap-5">
                       <div className="flex-shrink-0">
-                        <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg group-hover:bg-primary/15 transition-all duration-200">
-                          <IconComponent className="h-6 w-6 text-primary" />
+                        <div className="w-14 h-14 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center group-hover:from-primary/30 group-hover:to-primary/10 transition-all duration-300 group-hover:scale-110 shadow-inner">
+                          <IconComponent className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />
                         </div>
                       </div>
-                      <div>
-                        <h4 className="text-lg font-inter font-semibold mb-1 group-hover:text-primary transition-colors duration-200">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-lg font-orbitron font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
                           {contact.title}
                         </h4>
-                        <p className="text-primary font-medium mb-2">
+                        <p className="text-primary/90 font-medium truncate">
                           {contact.info}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          Click to {contact.title.toLowerCase()}
+                        <p className="text-xs text-muted-foreground mt-1 opacity-80">
+                          {contact.description}
                         </p>
+                      </div>
+                      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </Card>

@@ -1,12 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Download, Play, Film, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, Download, Play, Film, X, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { Slider } from '@/components/ui/slider';
 import { CharacterDesignsGrid } from '@/components/CharacterDesignsGrid';
 import { DigitalPortraitsGrid } from '@/components/DigitalPortraitsGrid';
+import { useIsMobile } from '@/hooks/use-mobile';
 
+// Import game video placeholders
+import gameVideoPlaceholderCure from '@/assets/game-placeholder-cure.png';
+import gameVideoPlaceholderRaptor from '@/assets/game-placeholder-raptor.png';
+import gameVideoPlaceholderImposter from '@/assets/game-placeholder-imposter.png';
 // Import game screenshots
 import cureInfection1 from '@/assets/cure-infection-screenshot-1.png';
 import cureInfection2 from '@/assets/cure-infection-screenshot-2.png';
@@ -72,7 +78,8 @@ const games = [{
   genre: 'Survival Shooting',
   description: 'A survival FPS developed in just six days, where you help Dr. Cure and his nurse fight a viral outbreak caused by his brother.',
   icon: cureInfectionIcon,
-  gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
+  previewVideo: '/videos/cure-infection.mp4',
+  previewPlaceholder: gameVideoPlaceholderCure,
   link: 'https://goncal0.itch.io/cure-and-infection',
   trailerVideoId: 'Xmvg2rPg59Q',
   screenshots: [cureInfection1, cureInfection2, cureInfection3, cureInfection4, cureInfection5, cureInfection6]
@@ -82,7 +89,8 @@ const games = [{
   genre: 'Shooter',
   description: 'Armed with a shotgun and pistol, you must hunt fast and relentless raptors in a survival challenge.',
   icon: raptorHunterIcon,
-  gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
+  previewVideo: '/videos/raptor-hunter.mp4',
+  previewPlaceholder: gameVideoPlaceholderRaptor,
   link: 'https://raptorbot.itch.io/raptor-hunter',
   trailerVideoId: 'vbHF9V5M4Dk',
   screenshots: [raptorHunter1, raptorHunter2, raptorHunter3, raptorHunter4, raptorHunter5, raptorHunter6]
@@ -92,7 +100,8 @@ const games = [{
   genre: 'Role-Playing / Social Deduction',
   description: 'Uncover and eliminate the imposter before they eliminate the crew. (Among Us Fan-Game)',
   icon: findImposterIcon,
-  gifPlaceholder: 'https://via.placeholder.com/640x360/1a1a1a/d4af37?text=GIF+Placeholder',
+  previewVideo: '/videos/find-imposter.mp4',
+  previewPlaceholder: gameVideoPlaceholderImposter,
   link: 'https://raptorbot.itch.io/find-the-imposter',
   trailerVideoId: 'tg1A09S3Puo',
   btsVideo: '/videos/find-the-imposter-bts.mkv',
@@ -280,9 +289,58 @@ const GameCard = ({
   const [showGameplay, setShowGameplay] = useState(false);
   const [showBTS, setShowBTS] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [volume, setVolume] = useState(50);
+  const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const handleCanPlay = () => setIsVideoLoaded(true);
+      video.addEventListener('canplaythrough', handleCanPlay);
+      if (video.readyState >= 3) {
+        setIsVideoLoaded(true);
+      }
+      return () => video.removeEventListener('canplaythrough', handleCanPlay);
+    }
+  }, []);
+
+  const toggleMute = () => {
+    setIsMuted(prev => {
+      const newState = !prev;
+      if (videoRef.current) {
+        videoRef.current.muted = newState;
+        if (!newState) {
+          videoRef.current.volume = volume / 100;
+        }
+      }
+      return newState;
+    });
+  };
+
+  const handleVolumeChange = (value: number[]) => {
+    const newVolume = value[0];
+    setVolume(newVolume);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume / 100;
+      if (newVolume > 0 && isMuted) {
+        videoRef.current.muted = false;
+        setIsMuted(false);
+      }
+      if (newVolume === 0 && !isMuted) {
+        videoRef.current.muted = true;
+        setIsMuted(true);
+      }
+    }
+  };
+
   return <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
       <CardContent className="p-4 md:p-6">
-        {/* Screenshots (2x3 grid) + GIF side by side */}
+        {/* Screenshots (2x3 grid) + Video Preview side by side */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Left: Screenshots 2x3 Grid */}
           <div className="lg:flex-1">
@@ -293,10 +351,75 @@ const GameCard = ({
             </div>
           </div>
 
-          {/* Right: GIF Thumbnail */}
+          {/* Right: Video Preview with Placeholder */}
           <div className="lg:w-[40%]">
-            <div className="h-full rounded-lg overflow-hidden bg-muted border border-border/30">
-              <img src={game.gifPlaceholder} alt={`${game.title} preview`} className="w-full h-full object-cover" />
+            <div 
+              className="h-full rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all relative group"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              {/* Placeholder Image - shown until video loads */}
+              {game.previewPlaceholder && (
+                <div className={`absolute inset-0 transition-opacity duration-500 z-10 ${isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                  <img 
+                    src={game.previewPlaceholder} 
+                    alt={`${game.title} preview`} 
+                    className="w-full h-full object-cover" 
+                  />
+                  {/* Loading indicator on hover */}
+                  {isHovering && !isVideoLoaded && (
+                    <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                      <span className="text-primary font-orbitron text-sm md:text-base animate-pulse">
+                        Loading Preview...
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Video */}
+              <video 
+                ref={videoRef}
+                src={game.previewVideo} 
+                autoPlay 
+                loop 
+                muted={isMuted}
+                playsInline
+                className={`w-full h-full object-cover cursor-pointer transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onClick={() => setFullscreenVideo(game.previewVideo)}
+              />
+
+              {/* Volume Controls */}
+              <div className="absolute bottom-3 right-3 flex items-center gap-2 z-20">
+                {/* Volume Slider - Desktop only */}
+                {!isMobile && !isMuted && (
+                  <div className="w-20 h-8 flex items-center bg-background/80 rounded-md px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Slider
+                      value={[volume]}
+                      onValueChange={handleVolumeChange}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
+                  </div>
+                )}
+                {/* Mute/Unmute Toggle */}
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="opacity-80 hover:opacity-100 transition-opacity bg-background/80 hover:bg-background"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMute();
+                  }}
+                >
+                  {isMuted ? (
+                    <VolumeX className="h-4 w-4" />
+                  ) : (
+                    <Volume2 className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -364,6 +487,16 @@ const GameCard = ({
               <X className="h-6 w-6 text-white" />
             </DialogClose>
             {game.btsVideo && <video src={game.btsVideo} controls autoPlay className="w-full h-auto" />}
+          </DialogContent>
+        </Dialog>
+
+        {/* Fullscreen Preview Video Dialog */}
+        <Dialog open={!!fullscreenVideo} onOpenChange={() => setFullscreenVideo(null)}>
+          <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95">
+            <DialogClose className="absolute right-4 top-4 z-10">
+              <X className="h-6 w-6 text-white" />
+            </DialogClose>
+            {fullscreenVideo && <video src={fullscreenVideo} autoPlay loop controls className="w-full h-full object-contain" />}
           </DialogContent>
         </Dialog>
       </CardContent>
