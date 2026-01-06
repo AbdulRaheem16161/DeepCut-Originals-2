@@ -71,12 +71,12 @@ const ComicsTrailersSection = () => {
   };
 
   return (
-    <section id="comics-trailers" className="py-20 bg-background">
+    <section id="trailers" className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="mb-8">
           <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-primary">
-            Comics / Game Trailers
+            Trailers
           </h3>
           <p className="text-muted-foreground mt-2">
             Cinematic trailers and comic-style content
