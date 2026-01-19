@@ -8,22 +8,21 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-inter font-bold mb-6 text-foreground">
             About <span className="text-[#e0a929]">DeepCut Originals</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Founded in 2024, we began as six young creators with a shared passion for
-            game development, working together to bring our ideas to life.
-          </p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">We build complete fully functional games from programming to final polish. Our work includes 3D models animations environments VFX and cinematic post processing. We also create 2D art character designs concept art and illustrations. Whether you need a single asset or a complete game we focus on delivering quality work done right.</p>
         </div>
 
         {/* Team Stats */}
-        <div className="mb-20 bg-card border border-border rounded-lg p-8 max-w-3xl mx-auto shadow-sm">
+        <div className="mb-20 bg-card border border-border rounded-lg p-8 max-w-3xl shadow-sm mx-[211px] px-[91px]">
           <div className="grid grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-3xl font-inter font-bold text-primary mb-2">6</div>
               <div className="text-muted-foreground text-sm">Members</div>
             </div>
             <div>
-              <div className="text-3xl font-inter font-bold text-primary mb-2">1</div>
-              <div className="text-muted-foreground text-sm">Year Experience</div>
+              <div className="text-3xl font-inter font-bold text-primary mb-2">
+            </div>
+              <div className="text-muted-foreground text-sm">
+            </div>
             </div>
             <div>
               <div className="text-3xl font-inter font-bold text-primary mb-2">3</div>
@@ -37,10 +36,7 @@ const About = () => {
           <h3 className="text-3xl md:text-4xl font-inter font-bold mb-6 text-foreground">
             <span className="text-[#e0a929]">Join</span> Our Team
           </h3>
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-            We are a small indie studio of 6, always ready to welcome new people — especially beginners
-            who want to learn, grow, and start their game dev journey with us. If you have passion, you belong here.
-          </p>
+          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">We are a small indie studio of six and we are always open to welcoming new people. We especially enjoy working with beginners who want to learn grow and start their game development journey with us. If you have passion and a willingness to improve, you belong here.</p>
           <Button className="btn-gaming text-base px-8 py-6" onClick={() => document.getElementById('contact')?.scrollIntoView({
           behavior: 'smooth'
         })}>

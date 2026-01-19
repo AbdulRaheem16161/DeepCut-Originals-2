@@ -64,10 +64,7 @@ const Contact = () => {
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold mb-6 text-foreground tracking-tight">
             Let's <span className="drop-shadow-none text-[#dfa620]\n">Connect</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Ready to bring your gaming vision to life? We'd love to hear from you.
-            Whether you have a project in mind or just want to say hello, drop us a line!
-          </p>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">Thinking about a game or just want to talk? Send us a message. We are always happy to chat, answer questions and see how we can help!</p>
         </div>
 
         <div className="flex justify-center">
@@ -87,7 +84,7 @@ const Contact = () => {
                         <h4 className="text-lg font-orbitron font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
                           {contact.title}
                         </h4>
-                        <p className="font-medium truncate text-[#65758b]">
+                        <p className="font-medium truncate text-sidebar-foreground">
                           {contact.info}
                         </p>
                         <p className="text-xs text-muted-foreground mt-1 opacity-80">
