@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Download, Play, Film, X, Volume2, VolumeX } from 'lucide-react';
+import { ChevronDown, ChevronUp, Download, Play, Film, X, Volume2, VolumeX, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -7,6 +7,37 @@ import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { Slider } from '@/components/ui/slider';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+// Preload priority assets
+const preloadAssets = () => {
+  // Priority 1: Hero image
+  const heroLink = document.createElement('link');
+  heroLink.rel = 'preload';
+  heroLink.as = 'image';
+  heroLink.href = '/src/assets/hero-character-new.png';
+  document.head.appendChild(heroLink);
+
+  // Priority 2-4: Game videos in order
+  const videoUrls = [
+    '/videos/cure-infection.mp4',
+    '/videos/raptor-hunter.mp4',
+    '/videos/find-imposter.mp4'
+  ];
+  
+  videoUrls.forEach((url, index) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = url;
+    // Add fetchpriority for browsers that support it
+    (link as any).fetchpriority = index === 0 ? 'high' : 'auto';
+    document.head.appendChild(link);
+  });
+};
+
+// Run preload on module load
+if (typeof window !== 'undefined') {
+  preloadAssets();
+}
 // Import game video placeholders
 import gameVideoPlaceholderCure from '@/assets/game-placeholder-cure.png';
 import gameVideoPlaceholderRaptor from '@/assets/game-placeholder-raptor.png';
@@ -81,10 +112,8 @@ const GameCard = ({
   const [showBTS, setShowBTS] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [volume, setVolume] = useState(50);
-  const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isMobile = useIsMobile();
 
@@ -134,19 +163,20 @@ const GameCard = ({
       <CardContent className="p-4 md:p-6">
         {/* Screenshots (2x3 grid) + Video Preview side by side */}
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Left: Screenshots 2x3 Grid */}
+          {/* Left: Screenshots 2x3 Grid - larger on mobile */}
           <div className="lg:flex-1">
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2">
               {game.screenshots.slice(0, 6).map((screenshot, index) => (
                 <div
                   key={index}
-                  className="aspect-video rounded-lg overflow-hidden cursor-pointer border-2 border-border/30 hover:border-primary/50 transition-all hover:scale-[1.02] shadow-md hover:shadow-lg"
+                  className="aspect-video rounded-md sm:rounded-lg overflow-hidden cursor-pointer border-2 border-border/30 hover:border-primary/50 transition-all hover:scale-[1.02] shadow-md hover:shadow-lg"
                   onClick={() => setZoomedImage(screenshot)}
                 >
                   <img
                     src={screenshot}
                     alt={`${game.title} screenshot ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading="eager"
                   />
                 </div>
               ))}
@@ -157,10 +187,8 @@ const GameCard = ({
           <div className="lg:w-[40%]">
             <div
               className="h-full rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all relative group"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
             >
-              {/* Placeholder Image - shown until video loads */}
+              {/* Placeholder Image with Loading Overlay - shown until video loads */}
               {game.previewPlaceholder && (
                 <div className={`absolute inset-0 transition-opacity duration-500 z-10 ${isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                   <img
@@ -168,18 +196,17 @@ const GameCard = ({
                     alt={`${game.title} preview`}
                     className="w-full h-full object-cover"
                   />
-                  {/* Loading indicator on hover */}
-                  {isHovering && !isVideoLoaded && (
-                    <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-                      <span className="text-primary font-orbitron text-sm md:text-base animate-pulse">
-                        Loading Preview...
-                      </span>
-                    </div>
-                  )}
+                  {/* Always visible loading indicator when video not loaded */}
+                  <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3">
+                    <Loader2 className="h-8 w-8 md:h-10 md:w-10 text-primary animate-spin" />
+                    <span className="text-foreground font-orbitron text-sm md:text-base">
+                      Loading Preview...
+                    </span>
+                  </div>
                 </div>
               )}
 
-              {/* Video */}
+              {/* Video - click toggles mute instead of fullscreen */}
               <video
                 ref={videoRef}
                 src={game.previewVideo}
@@ -187,8 +214,9 @@ const GameCard = ({
                 loop
                 muted={isMuted}
                 playsInline
+                preload="auto"
                 className={`w-full h-full object-cover cursor-pointer transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
-                onClick={() => setFullscreenVideo(game.previewVideo)}
+                onClick={toggleMute}
               />
 
               {/* Volume Controls */}
@@ -296,17 +324,6 @@ const GameCard = ({
           </DialogContent>
         </Dialog>
 
-        {/* Fullscreen Video Dialog */}
-        <Dialog open={!!fullscreenVideo} onOpenChange={() => setFullscreenVideo(null)}>
-          <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95">
-            <DialogClose className="absolute right-4 top-4 z-10">
-              <X className="h-6 w-6 text-white" />
-            </DialogClose>
-            {fullscreenVideo && (
-              <video src={fullscreenVideo} autoPlay loop controls className="w-full h-full object-contain" />
-            )}
-          </DialogContent>
-        </Dialog>
 
         {/* BTS Video Dialog */}
         {game.btsVideo && (
