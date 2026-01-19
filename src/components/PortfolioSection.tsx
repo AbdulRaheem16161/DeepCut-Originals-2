@@ -44,7 +44,6 @@ import placeholderTrex from '@/assets/placeholder-trex.png';
 import placeholderCar from '@/assets/placeholder-car.png';
 import placeholderHuts from '@/assets/placeholder-huts.png';
 import placeholderJapaneseHouse from '@/assets/placeholder-japanese-house.png';
-
 const models3DVideos = [{
   id: 1,
   video: '/videos/3d-model-alosaurus.mp4',
@@ -74,42 +73,93 @@ const models3DVideos = [{
 
 // Art data
 const artCategories = {
-  characterDesigns: [
-    { id: 1, image: characterDesign1 },
-    { id: 2, image: characterDesign2 },
-    { id: 3, image: characterDesign3 },
-    { id: 4, image: characterDesign4 },
-    { id: 5, image: characterDesign5 },
-    { id: 6, image: characterDesign6 },
-  ],
-  digitalPortraits: [
-    { id: 1, image: portrait1 },
-    { id: 2, image: portrait2 },
-    { id: 3, image: portrait3 },
-    { id: 4, image: portrait4 },
-    { id: 5, image: portrait5 },
-    { id: 6, image: portrait6 },
-    { id: 7, image: portrait7 },
-    { id: 8, image: portrait8 },
-    { id: 9, image: portrait9 },
-    { id: 10, image: portrait10 },
-    { id: 11, image: portrait11 },
-    { id: 12, image: portrait12 },
-  ],
+  characterDesigns: [{
+    id: 1,
+    image: characterDesign1
+  }, {
+    id: 2,
+    image: characterDesign2
+  }, {
+    id: 3,
+    image: characterDesign3
+  }, {
+    id: 4,
+    image: characterDesign4
+  }, {
+    id: 5,
+    image: characterDesign5
+  }, {
+    id: 6,
+    image: characterDesign6
+  }],
+  digitalPortraits: [{
+    id: 1,
+    image: portrait1
+  }, {
+    id: 2,
+    image: portrait2
+  }, {
+    id: 3,
+    image: portrait3
+  }, {
+    id: 4,
+    image: portrait4
+  }, {
+    id: 5,
+    image: portrait5
+  }, {
+    id: 6,
+    image: portrait6
+  }, {
+    id: 7,
+    image: portrait7
+  }, {
+    id: 8,
+    image: portrait8
+  }, {
+    id: 9,
+    image: portrait9
+  }, {
+    id: 10,
+    image: portrait10
+  }, {
+    id: 11,
+    image: portrait11
+  }, {
+    id: 12,
+    image: portrait12
+  }]
 };
 
 // Environments data
-const environmentsData = [
-  { id: 1, image: env1 },
-  { id: 2, image: env2 },
-  { id: 3, image: env3 },
-  { id: 4, image: env4 },
-  { id: 5, image: env5 },
-  { id: 6, image: env6 },
-  { id: 7, image: env7 },
-  { id: 8, image: env8 },
-  { id: 9, image: env9 },
-];
+const environmentsData = [{
+  id: 1,
+  image: env1
+}, {
+  id: 2,
+  image: env2
+}, {
+  id: 3,
+  image: env3
+}, {
+  id: 4,
+  image: env4
+}, {
+  id: 5,
+  image: env5
+}, {
+  id: 6,
+  image: env6
+}, {
+  id: 7,
+  image: env7
+}, {
+  id: 8,
+  image: env8
+}, {
+  id: 9,
+  image: env9
+}];
 
 // 3D Model Card with Placeholder
 const Model3DCard = ({
@@ -129,22 +179,18 @@ const Model3DCard = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
-
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
       const handleCanPlay = () => setIsVideoLoaded(true);
       const handleWaiting = () => setIsBuffering(true);
       const handlePlaying = () => setIsBuffering(false);
-      
       video.addEventListener('canplaythrough', handleCanPlay);
       video.addEventListener('waiting', handleWaiting);
       video.addEventListener('playing', handlePlaying);
-      
       if (video.readyState >= 3) {
         setIsVideoLoaded(true);
       }
-      
       return () => {
         video.removeEventListener('canplaythrough', handleCanPlay);
         video.removeEventListener('waiting', handleWaiting);
@@ -152,66 +198,42 @@ const Model3DCard = ({
       };
     }
   }, []);
-
   const showLoading = !isVideoLoaded || isBuffering;
-
-  return (
-    <div
-      className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative cursor-pointer ${
-        featured
-          ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40'
-          : 'border-border/30 hover:border-primary/50'
-      }`}
-      onClick={() => onVideoClick?.(model.video)}
-    >
+  return <div className={`aspect-video rounded-lg overflow-hidden bg-muted border transition-all relative cursor-pointer ${featured ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40' : 'border-border/30 hover:border-primary/50'}`} onClick={() => onVideoClick?.(model.video)}>
       {/* Placeholder image - shown until video loads */}
-      {model.placeholder && !isVideoLoaded && (
-        <div className="absolute inset-0 z-10">
+      {model.placeholder && !isVideoLoaded && <div className="absolute inset-0 z-10">
           <img src={model.placeholder} alt="" className="w-full h-full object-cover" />
-        </div>
-      )}
+        </div>}
       
       {/* Always visible loading overlay when loading or buffering */}
-      {showLoading && (
-        <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3 z-20">
+      {showLoading && <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3 z-20">
           <Loader2 className="h-8 w-8 md:h-10 md:w-10 text-primary animate-spin" />
           <span className="text-foreground font-orbitron text-sm md:text-base">
             Loading Video...
           </span>
-        </div>
-      )}
+        </div>}
       
       {/* Video - fades in when loaded */}
-      <video
-        ref={videoRef}
-        src={model.video}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className={`w-full h-full object-cover transition-opacity duration-500 ${
-          isVideoLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
-    </div>
-  );
+      <video ref={videoRef} src={model.video} autoPlay loop muted playsInline className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} />
+    </div>;
 };
 
 // Section Header Component
-const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
-  <div className="mb-8">
+const SectionHeader = ({
+  title,
+  subtitle
+}: {
+  title: string;
+  subtitle?: string;
+}) => <div className="mb-8">
     <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-primary">{title}</h3>
-    {subtitle && <p className="text-muted-foreground mt-2">{subtitle}</p>}
-  </div>
-);
-
+    {subtitle && <p className="mt-2 text-[#65758b]">{subtitle}</p>}
+  </div>;
 const PortfolioSection = () => {
   const [zoomedArtImage, setZoomedArtImage] = useState<string | null>(null);
   const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
-
-  return (
-    <section id="portfolio" className="py-20 bg-background">
-      <div className="container mx-auto px-4 lg:px-8">
+  return <section id="portfolio" className="py-20 bg-background">
+      <div className="container mx-auto px-4 lg:px-8 text-muted-foreground">
         {/* 1. ART SECTION */}
         <div id="art" className="mb-20">
           <SectionHeader title="Art" subtitle="Digital art and illustrations" />
@@ -221,10 +243,7 @@ const PortfolioSection = () => {
             <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">
               Character Designs
             </h4>
-            <CharacterDesignsGrid
-              items={artCategories.characterDesigns}
-              onImageClick={setZoomedArtImage}
-            />
+            <CharacterDesignsGrid items={artCategories.characterDesigns} onImageClick={setZoomedArtImage} />
           </div>
 
           {/* Digital Portraits */}
@@ -232,10 +251,7 @@ const PortfolioSection = () => {
             <h4 className="text-lg md:text-xl font-orbitron font-semibold text-foreground mb-4">
               Digital Portraits
             </h4>
-            <DigitalPortraitsGrid
-              items={artCategories.digitalPortraits}
-              onImageClick={setZoomedArtImage}
-            />
+            <DigitalPortraitsGrid items={artCategories.digitalPortraits} onImageClick={setZoomedArtImage} />
           </div>
         </div>
 
@@ -245,19 +261,9 @@ const PortfolioSection = () => {
 
           {/* Environment Images Grid - 3x3 grid */}
           <div className="grid grid-cols-3 gap-4">
-            {environmentsData.map((item) => (
-              <div
-                key={item.id}
-                className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]"
-                onClick={() => setZoomedArtImage(item.image)}
-              >
-                <img
-                  src={item.image}
-                  alt={`Environment ${item.id}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+            {environmentsData.map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
+                <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
+              </div>)}
           </div>
         </div>
 
@@ -267,15 +273,9 @@ const PortfolioSection = () => {
 
           {/* All Models in a Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {models3DVideos.map((model) => (
-              <div key={model.id}>
-                <Model3DCard
-                  model={model}
-                  featured={model.featured}
-                  onVideoClick={setFullscreenVideo}
-                />
-              </div>
-            ))}
+            {models3DVideos.map(model => <div key={model.id}>
+                <Model3DCard model={model} featured={model.featured} onVideoClick={setFullscreenVideo} />
+              </div>)}
           </div>
         </div>
 
@@ -285,13 +285,7 @@ const PortfolioSection = () => {
             <DialogClose className="absolute right-4 top-4 z-10">
               <X className="h-6 w-6 text-white" />
             </DialogClose>
-            {zoomedArtImage && (
-              <img
-                src={zoomedArtImage}
-                alt="Zoomed art"
-                className="w-full h-full object-contain"
-              />
-            )}
+            {zoomedArtImage && <img src={zoomedArtImage} alt="Zoomed art" className="w-full h-full object-contain" />}
           </DialogContent>
         </Dialog>
 
@@ -301,20 +295,10 @@ const PortfolioSection = () => {
             <DialogClose className="absolute right-4 top-4 z-10">
               <X className="h-6 w-6 text-white" />
             </DialogClose>
-            {fullscreenVideo && (
-              <video
-                src={fullscreenVideo}
-                autoPlay
-                loop
-                controls
-                className="w-full h-full object-contain"
-              />
-            )}
+            {fullscreenVideo && <video src={fullscreenVideo} autoPlay loop controls className="w-full h-full object-contain" />}
           </DialogContent>
         </Dialog>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default PortfolioSection;
