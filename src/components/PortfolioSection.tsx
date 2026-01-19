@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { CharacterDesignsGrid } from '@/components/CharacterDesignsGrid';
 import { DigitalPortraitsGrid } from '@/components/DigitalPortraitsGrid';
@@ -128,19 +128,32 @@ const Model3DCard = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
       const handleCanPlay = () => setIsVideoLoaded(true);
+      const handleWaiting = () => setIsBuffering(true);
+      const handlePlaying = () => setIsBuffering(false);
+      
       video.addEventListener('canplaythrough', handleCanPlay);
+      video.addEventListener('waiting', handleWaiting);
+      video.addEventListener('playing', handlePlaying);
+      
       if (video.readyState >= 3) {
         setIsVideoLoaded(true);
       }
-      return () => video.removeEventListener('canplaythrough', handleCanPlay);
+      
+      return () => {
+        video.removeEventListener('canplaythrough', handleCanPlay);
+        video.removeEventListener('waiting', handleWaiting);
+        video.removeEventListener('playing', handlePlaying);
+      };
     }
   }, []);
+
+  const showLoading = !isVideoLoaded || isBuffering;
 
   return (
     <div
@@ -149,28 +162,25 @@ const Model3DCard = ({
           ? 'border-primary/50 hover:border-primary ring-2 ring-primary/20 hover:ring-primary/40'
           : 'border-border/30 hover:border-primary/50'
       }`}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
       onClick={() => onVideoClick?.(model.video)}
     >
       {/* Placeholder image - shown until video loads */}
-      {model.placeholder && (
-        <div
-          className={`absolute inset-0 transition-opacity duration-500 ${
-            isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
-        >
+      {model.placeholder && !isVideoLoaded && (
+        <div className="absolute inset-0 z-10">
           <img src={model.placeholder} alt="" className="w-full h-full object-cover" />
-          {/* Loading indicator on hover */}
-          {isHovering && !isVideoLoaded && (
-            <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-              <span className="text-primary font-orbitron text-sm md:text-base animate-pulse">
-                Loading Preview...
-              </span>
-            </div>
-          )}
         </div>
       )}
+      
+      {/* Always visible loading overlay when loading or buffering */}
+      {showLoading && (
+        <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3 z-20">
+          <Loader2 className="h-8 w-8 md:h-10 md:w-10 text-primary animate-spin" />
+          <span className="text-foreground font-orbitron text-sm md:text-base">
+            Loading Video...
+          </span>
+        </div>
+      )}
+      
       {/* Video - fades in when loaded */}
       <video
         ref={videoRef}

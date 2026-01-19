@@ -112,6 +112,7 @@ const GameCard = ({
   const [showBTS, setShowBTS] = useState(false);
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [volume, setVolume] = useState(50);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -121,13 +122,26 @@ const GameCard = ({
     const video = videoRef.current;
     if (video) {
       const handleCanPlay = () => setIsVideoLoaded(true);
+      const handleWaiting = () => setIsBuffering(true);
+      const handlePlaying = () => setIsBuffering(false);
+      
       video.addEventListener('canplaythrough', handleCanPlay);
+      video.addEventListener('waiting', handleWaiting);
+      video.addEventListener('playing', handlePlaying);
+      
       if (video.readyState >= 3) {
         setIsVideoLoaded(true);
       }
-      return () => video.removeEventListener('canplaythrough', handleCanPlay);
+      
+      return () => {
+        video.removeEventListener('canplaythrough', handleCanPlay);
+        video.removeEventListener('waiting', handleWaiting);
+        video.removeEventListener('playing', handlePlaying);
+      };
     }
   }, []);
+
+  const showLoading = !isVideoLoaded || isBuffering;
 
   const toggleMute = () => {
     setIsMuted(prev => {
@@ -188,21 +202,24 @@ const GameCard = ({
             <div
               className="h-full rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all relative group"
             >
-              {/* Placeholder Image with Loading Overlay - shown until video loads */}
-              {game.previewPlaceholder && (
-                <div className={`absolute inset-0 transition-opacity duration-500 z-10 ${isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+              {/* Placeholder Image - shown until video loads */}
+              {game.previewPlaceholder && !isVideoLoaded && (
+                <div className="absolute inset-0 z-10">
                   <img
                     src={game.previewPlaceholder}
                     alt={`${game.title} preview`}
                     className="w-full h-full object-cover"
                   />
-                  {/* Always visible loading indicator when video not loaded */}
-                  <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3">
-                    <Loader2 className="h-8 w-8 md:h-10 md:w-10 text-primary animate-spin" />
-                    <span className="text-foreground font-orbitron text-sm md:text-base">
-                      Loading Preview...
-                    </span>
-                  </div>
+                </div>
+              )}
+              
+              {/* Always visible loading overlay when loading or buffering */}
+              {showLoading && (
+                <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3 z-20">
+                  <Loader2 className="h-8 w-8 md:h-10 md:w-10 text-primary animate-spin" />
+                  <span className="text-foreground font-orbitron text-sm md:text-base">
+                    Loading Video...
+                  </span>
                 </div>
               )}
 
