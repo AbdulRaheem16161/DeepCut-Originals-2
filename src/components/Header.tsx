@@ -21,7 +21,6 @@ const Header = () => {
             <img
               src={logo}
               alt="DeepCut Originals Logo"
-              fetchPriority="low"
               className="h-10 w-auto"
             />
           </div>

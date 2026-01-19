@@ -189,7 +189,6 @@ const Model3DCard = ({
         loop
         muted
         playsInline
-        preload={featured ? 'auto' : 'metadata'}
         className={`w-full h-full object-cover transition-opacity duration-500 ${
           isVideoLoaded ? 'opacity-100' : 'opacity-0'
         }`}
@@ -245,7 +244,7 @@ const PortfolioSection = () => {
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
 
           {/* Environment Images Grid - 3x3 grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-3 gap-4">
             {environmentsData.map((item) => (
               <div
                 key={item.id}
