@@ -67,6 +67,8 @@ const Hero = () => {
             <img
               src={heroCharacter}
               alt="Game character showcase"
+              loading="eager"
+              fetchPriority="high"
               className="w-full max-w-[180px] md:max-w-[200px] lg:max-w-[330px] h-auto object-contain drop-shadow-2xl"
             />
           </div>
