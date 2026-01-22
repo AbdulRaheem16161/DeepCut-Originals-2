@@ -48,7 +48,7 @@ const Contact = () => {
     icon: Phone,
     title: 'WhatsApp',
     info: '03364518167',
-    description: 'Available Monday to Friday, 9 AM to 6 PM PST.',
+    description: 'Send us a message anytime. We\'ll reply ASAP, 7 days a week.',
     link: 'https://wa.me/qr/MMPUR4R6XWLOD1'
   }, {
     icon: MapPin,

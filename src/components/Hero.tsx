@@ -20,7 +20,7 @@ const navButtons = [{
 }, {
   label: 'Trailers',
   icon: Film,
-  target: 'comics-trailers'
+  target: 'trailers'
 }];
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -43,7 +43,7 @@ const Hero = () => {
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto lg:mx-0">
-              Crafting original worlds — where rip-offs come to die.
+              Crafting original worlds built on creativity, not imitation.
             </p>
 
             <div className="flex justify-center lg:justify-start pt-4">
