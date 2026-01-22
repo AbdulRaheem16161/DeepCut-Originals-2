@@ -3,10 +3,12 @@ import Hero from '@/components/Hero';
 import GamesSection from '@/components/GamesSection';
 import ComicsTrailersSection from '@/components/ComicsTrailersSection';
 import PortfolioSection from '@/components/PortfolioSection';
+import ServicesSection from '@/components/ServicesSection';
 import MeetTheTeam from '@/components/MeetTheTeam';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 
 const Index = () => {
   return (
@@ -18,11 +20,13 @@ const Index = () => {
         <GamesSection />
         <ComicsTrailersSection />
         <PortfolioSection />
+        <ServicesSection />
         <MeetTheTeam />
         <About />
         <Contact />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import logo from '@/assets/logo-new.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,11 +7,18 @@ const Header = () => {
   const navItems = [
     { label: 'Home', href: '#home' },
     { label: 'Our Work', href: '#games' },
-    { label: 'Services', href: '#about' },
+    { label: 'Services', href: '#services' },
     { label: 'About', href: '#about' },
     { label: 'Team', href: '#team' },
+    { label: 'Join Us', href: '#about' },
     { label: 'Contact', href: '#contact' }
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -35,6 +41,7 @@ const Header = () => {
                 key={item.label} 
                 href={item.href} 
                 className="text-foreground hover:text-primary transition-colors duration-300 font-inter font-medium text-sm"
+                onClick={(e) => handleNavClick(e, item.href)}
               >
                 {item.label}
               </a>
@@ -59,7 +66,7 @@ const Header = () => {
                   key={item.label} 
                   href={item.href} 
                   className="text-foreground hover:text-primary transition-colors duration-300 font-inter font-medium py-2" 
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, item.href)}
                 >
                   {item.label}
                 </a>

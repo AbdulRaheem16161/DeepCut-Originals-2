@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { User } from 'lucide-react';
 
 // Import profile images
-import abdulraheemImg from '@/assets/abdulraheem.jpg';
+import abdulraheemImg from '@/assets/abdulraheem-new.png';
 import kairesImg from '@/assets/kaires.jpg';
 import aliKhanImg from '@/assets/ali-khan.jpg';
 import raptorbotImg from '@/assets/raptorbot.jpg';
@@ -191,7 +191,7 @@ const MeetTheTeam = () => {
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold mb-4 text-foreground">
-            Meet The <span className="text-[#e4b74e]">Team</span>
+            Meet The <span className="text-primary">Team</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             The talented individuals behind DeepCut Originals
@@ -217,7 +217,7 @@ const MeetTheTeam = () => {
 
                 {/* Name and Role */}
                 <div>
-                  <h3 className="text-xl font-semibold font-orbitron mb-1 text-[#ec0404]">
+                  <h3 className="text-xl font-semibold font-orbitron mb-1 text-foreground">
                     {member.name}
                   </h3>
                   <p className="text-primary font-medium text-sm">
