@@ -226,7 +226,7 @@ const SectionHeader = ({
   title: string;
   subtitle?: string;
 }) => <div className="mb-8">
-    <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-primary">{title}</h3>
+    <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-foreground">{title}</h3>
     {subtitle && <p className="mt-2 text-[#65758b]">{subtitle}</p>}
   </div>;
 const PortfolioSection = () => {

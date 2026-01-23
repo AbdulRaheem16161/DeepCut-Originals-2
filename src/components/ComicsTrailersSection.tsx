@@ -75,7 +75,7 @@ const ComicsTrailersSection = () => {
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="mb-8">
-          <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-primary">
+          <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-foreground">
             Trailers
           </h3>
           <p className="text-muted-foreground mt-2">
