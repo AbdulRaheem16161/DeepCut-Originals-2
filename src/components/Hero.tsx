@@ -11,11 +11,6 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-background">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 bg-gaming-pattern"></div>
-      
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5"></div>
 
       {/* Content */}
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
@@ -24,7 +19,7 @@ const Hero = () => {
           <div className="flex-1 text-center lg:text-left animate-slide-up space-y-8">
             <h1 className="text-5xl md:text-7xl lg:text-[80px] xl:text-[100px] font-inter font-bold leading-tight">
               <span className="text-foreground">Indie Game</span>{' '}
-              <span className="text-gradient-orange">Studio</span>
+              <span className="text-orange">Studio</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto lg:mx-0">
@@ -33,7 +28,7 @@ const Hero = () => {
 
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
               <Button 
-                className="btn-gaming btn-glow text-lg px-10 py-7 gap-2" 
+                className="bg-foreground hover:bg-foreground text-background hover:text-background text-lg px-10 py-7 gap-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg" 
                 size="lg" 
                 onClick={() => scrollToSection('games')}
               >
@@ -42,7 +37,7 @@ const Hero = () => {
               </Button>
               <Button 
                 variant="outline"
-                className="text-lg px-8 py-7 border-primary/50 hover:bg-primary/10 btn-glow gap-2" 
+                className="text-lg px-8 py-7 border-foreground text-foreground hover:bg-foreground hover:text-background gap-2 transition-all duration-300 hover:scale-[1.02]" 
                 size="lg" 
                 onClick={() => scrollToSection('services')}
               >

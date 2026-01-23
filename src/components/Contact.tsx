@@ -11,22 +11,21 @@ const WhatsAppIcon = () => (
 const Contact = () => {
   const contactInfo = [{
     icon: Mail,
-    iconBg: 'from-primary to-primary/70',
+    iconBg: 'from-foreground to-foreground/70',
     title: 'Email Us',
     info: 'deepcutoriginals@gmail.com',
     description: "Send us an email and we'll respond within 24 hours.",
     link: 'mailto:deepcutoriginals@gmail.com'
   }, {
     icon: MessageCircle,
-    iconBg: 'from-whatsapp to-whatsapp/70',
+    iconBg: 'from-foreground to-foreground/70',
     title: 'WhatsApp',
     info: '03364518167',
     description: "Send us a message anytime. We'll reply ASAP, 7 days a week.",
-    link: 'https://wa.me/923364518167',
-    isWhatsApp: true
+    link: 'https://wa.me/923364518167'
   }, {
     icon: MapPin,
-    iconBg: 'from-primary to-primary/70',
+    iconBg: 'from-foreground to-foreground/70',
     title: 'Visit Us',
     info: 'Mansorah Multan Road, Lahore, Pakistan',
     description: 'Located in the heart of Lahore.',
@@ -40,7 +39,7 @@ const Contact = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-inter font-bold mb-6 tracking-tight">
             <span className="text-foreground">Let's</span>{' '}
-            <span className="text-gradient-orange">Connect</span>
+            <span className="text-orange">Connect</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Thinking about a game or just want to talk? Send us a message. We are always happy to chat, answer questions and see how we can help!
@@ -56,17 +55,17 @@ const Contact = () => {
                 return (
                   <Card 
                     key={index} 
-                    className={`group cursor-pointer bg-card/30 backdrop-blur-md border border-border/40 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 card-interactive ${contact.isWhatsApp ? 'hover:border-whatsapp/50 hover:shadow-whatsapp/10' : ''}`}
+                    className="group cursor-pointer bg-card/30 backdrop-blur-md border border-border/40 hover:border-foreground/50 transition-all duration-300 hover:shadow-lg card-interactive"
                     onClick={() => window.open(contact.link, '_blank')}
                   >
                     <div className="p-5 flex items-center gap-5">
                       <div className="flex-shrink-0">
-                        <div className={`w-14 h-14 bg-gradient-to-br ${contact.iconBg} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg ${contact.isWhatsApp ? 'shadow-whatsapp/30 animate-whatsapp-pulse' : 'shadow-primary/20'}`}>
-                          <IconComponent className="h-6 w-6 text-primary-foreground" />
+                        <div className={`w-14 h-14 bg-gradient-to-br ${contact.iconBg} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                          <IconComponent className="h-6 w-6 text-background" />
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className={`text-lg font-inter font-semibold text-foreground ${contact.isWhatsApp ? 'group-hover:text-whatsapp' : 'group-hover:text-primary'} transition-colors duration-300`}>
+                        <h4 className="text-lg font-inter font-semibold text-foreground group-hover:text-foreground transition-colors duration-300">
                           {contact.title}
                         </h4>
                         <p className="font-medium truncate text-foreground">
@@ -77,8 +76,8 @@ const Contact = () => {
                         </p>
                       </div>
                       <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className={`w-8 h-8 rounded-full ${contact.isWhatsApp ? 'bg-whatsapp/20' : 'bg-primary/20'} flex items-center justify-center`}>
-                          <svg className={`w-4 h-4 ${contact.isWhatsApp ? 'text-whatsapp' : 'text-primary'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-8 h-8 rounded-full bg-foreground/10 flex items-center justify-center">
+                          <svg className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </div>

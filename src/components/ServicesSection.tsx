@@ -141,7 +141,7 @@ const ServicesSection = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-inter font-bold mb-6">
             <span className="text-foreground">Our</span>{' '}
-            <span className="text-gradient-orange">Services</span>
+            <span className="text-orange">Services</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             We work with indie developers, creators, and studios.
@@ -178,16 +178,11 @@ const ServicesSection = () => {
           })}
         </div>
 
-        {/* Note */}
-        <p className="text-center text-lg text-muted-foreground mb-16 max-w-2xl mx-auto italic border-l-4 border-primary pl-4">
-          Even if your idea is just a rough concept, we'll help shape it and make it real.
-        </p>
-
         {/* How It Works */}
         <div className="max-w-4xl mx-auto">
           <h3 className="text-3xl font-inter font-bold text-center mb-12">
             <span className="text-foreground">How It</span>{' '}
-            <span className="text-gradient-orange">Works</span>
+            <span className="text-orange">Works</span>
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
@@ -215,7 +210,7 @@ const ServicesSection = () => {
           <div className="text-center">
             <Button 
               size="lg" 
-              className="btn-gaming btn-glow text-lg px-8 py-6 gap-3"
+              className="bg-foreground hover:bg-foreground text-background hover:text-background text-lg px-8 py-6 gap-3 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
               onClick={handleWhatsAppClick}
             >
               <MessageCircle className="w-6 h-6" />

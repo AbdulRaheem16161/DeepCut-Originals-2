@@ -206,7 +206,7 @@ const MeetTheTeam = () => {
             >
               <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
                 {/* Avatar */}
-                <Avatar className="w-24 h-24 border-4 border-primary/30">
+                <Avatar className="w-24 h-24 border-4 border-foreground/30">
                   {member.image ? (
                     <AvatarImage src={member.image} alt={member.name} className="object-cover" />
                   ) : null}

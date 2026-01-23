@@ -92,7 +92,7 @@ const games = [{
   genre: 'Role-Playing / Social Deduction',
   description: 'Uncover and eliminate the imposter before they eliminate the crew. (Among Us Fan-Game)',
   icon: findImposterIcon,
-  previewVideos: ['/videos/find-imposter.mp4', '/videos/trailer-1.mp4'],
+  previewVideo: '/videos/find-imposter.mp4',
   previewPlaceholder: gameVideoPlaceholderImposter,
   link: 'https://raptorbot.itch.io/find-the-imposter',
   screenshots: [findImposter1, findImposter2, findImposter3, findImposter4, findImposter5, findImposter6]
@@ -245,7 +245,6 @@ const GameCard = ({
   game: (typeof games)[0];
 }) => {
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
-  const hasMultipleVideos = 'previewVideos' in game && game.previewVideos;
 
   return (
     <Card className="w-full overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
@@ -272,20 +271,12 @@ const GameCard = ({
             </div>
           </div>
 
-          {/* Right: Video Preview(s) */}
-          <div className={`lg:w-[40%] ${hasMultipleVideos ? 'flex flex-col gap-2' : ''}`}>
-            {hasMultipleVideos ? (
-              game.previewVideos!.map((video, idx) => (
-                <div key={idx} className="flex-1">
-                  <VideoPlayer src={video} placeholder={game.previewPlaceholder} />
-                </div>
-              ))
-            ) : (
-              <VideoPlayer 
-                src={(game as any).previewVideo} 
-                placeholder={game.previewPlaceholder} 
-              />
-            )}
+          {/* Right: Video Preview */}
+          <div className="lg:w-[40%]">
+            <VideoPlayer 
+              src={(game as any).previewVideo} 
+              placeholder={game.previewPlaceholder} 
+            />
           </div>
         </div>
 
@@ -333,7 +324,7 @@ const GamesSection = () => {
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="mb-8">
-          <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-primary">Games</h3>
+          <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-foreground">Games</h3>
           <p className="text-muted-foreground mt-2">Our collection of indie games</p>
         </div>
 
