@@ -11,7 +11,7 @@ export function DigitalPortraitsGrid({
   onImageClick?: (src: string) => void;
 }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 items-end">
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 items-end">
       {items.map((portrait) => (
         <button
           key={portrait.id}
