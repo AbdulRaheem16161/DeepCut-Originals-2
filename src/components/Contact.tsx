@@ -11,21 +11,18 @@ const WhatsAppIcon = () => (
 const Contact = () => {
   const contactInfo = [{
     icon: Mail,
-    iconBg: 'from-foreground to-foreground/70',
     title: 'Email Us',
     info: 'deepcutoriginals@gmail.com',
     description: "Send us an email and we'll respond within 24 hours.",
     link: 'mailto:deepcutoriginals@gmail.com'
   }, {
     icon: MessageCircle,
-    iconBg: 'from-foreground to-foreground/70',
     title: 'WhatsApp',
     info: '03364518167',
     description: "Send us a message anytime. We'll reply ASAP, 7 days a week.",
     link: 'https://wa.me/923364518167'
   }, {
     icon: MapPin,
-    iconBg: 'from-foreground to-foreground/70',
     title: 'Visit Us',
     info: 'Mansorah Multan Road, Lahore, Pakistan',
     description: 'Located in the heart of Lahore.',
@@ -60,7 +57,7 @@ const Contact = () => {
                   >
                     <div className="p-5 flex items-center gap-5">
                       <div className="flex-shrink-0">
-                        <div className={`w-14 h-14 bg-gradient-to-br ${contact.iconBg} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                        <div className="w-14 h-14 bg-foreground rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
                           <IconComponent className="h-6 w-6 text-background" />
                         </div>
                       </div>

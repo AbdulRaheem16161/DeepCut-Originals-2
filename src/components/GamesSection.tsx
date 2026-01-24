@@ -290,14 +290,18 @@ const GameCard = ({
           {/* Game Title */}
           <div className="flex-1 min-w-0">
             <h3 className="font-orbitron font-bold text-lg text-foreground">{game.title}</h3>
-            <p className="text-sm text-primary">{game.genre}</p>
+            <p className="text-sm text-muted-foreground">{game.genre}</p>
           </div>
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" onClick={() => window.open(game.link, '_blank')} className="gap-2">
+            <Button 
+              size="sm" 
+              onClick={() => window.open(game.link, '_blank')} 
+              className="gap-2 bg-foreground hover:bg-foreground/90 text-orange"
+            >
               <Download className="h-4 w-4" />
-              Download
+              Download for Windows
             </Button>
           </div>
         </div>

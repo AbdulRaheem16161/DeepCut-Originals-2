@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react';
-import { Volume2, VolumeX, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Volume2, VolumeX, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 import trailerPlaceholder1 from '@/assets/trailer-placeholder-1.png';
@@ -27,10 +26,23 @@ const ComicsTrailersSection = () => {
     3: 50,
   });
   const [loadedVideos, setLoadedVideos] = useState<Record<number, boolean>>({});
-  const [hoveredPlaceholder, setHoveredPlaceholder] = useState<number | null>(null);
-  const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
+  const [bufferingVideos, setBufferingVideos] = useState<Record<number, boolean>>({});
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    // Setup buffering listeners for each video
+    Object.entries(videoRefs.current).forEach(([idStr, video]) => {
+      if (video) {
+        const id = parseInt(idStr);
+        const handleWaiting = () => setBufferingVideos(prev => ({ ...prev, [id]: true }));
+        const handlePlaying = () => setBufferingVideos(prev => ({ ...prev, [id]: false }));
+        
+        video.addEventListener('waiting', handleWaiting);
+        video.addEventListener('playing', handlePlaying);
+      }
+    });
+  }, [loadedVideos]);
 
   const toggleMute = (id: number) => {
     setMutedStates((prev) => {
@@ -85,95 +97,84 @@ const ComicsTrailersSection = () => {
 
         {/* Videos Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {trailerVideos.map((video) => (
-            <div
-              key={video.id}
-              className="relative aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all group"
-              onMouseEnter={() => !loadedVideos[video.id] && setHoveredPlaceholder(video.id)}
-              onMouseLeave={() => setHoveredPlaceholder(null)}
-            >
-              {/* Placeholder Image */}
-              {!loadedVideos[video.id] && (
-                <div className="absolute inset-0 z-10">
-                  <img
-                    src={video.placeholder}
-                    alt="Loading preview"
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Loading Preview Text on Hover */}
-                  {hoveredPlaceholder === video.id && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <span className="text-primary font-orbitron text-sm">Loading Preview...</span>
-                    </div>
-                  )}
-                </div>
-              )}
-              <video
-                ref={(el) => {
-                  videoRefs.current[video.id] = el;
-                }}
-                src={video.src}
-                autoPlay
-                loop
-                muted={mutedStates[video.id]}
-                playsInline
-                className="w-full h-full object-cover cursor-pointer"
-                onClick={() => setFullscreenVideo(video.src)}
-                onCanPlayThrough={() => handleVideoLoaded(video.id)}
-              />
-              {/* Volume Controls */}
-              <div className="absolute bottom-3 right-3 flex items-center gap-2 z-20">
-                {/* Volume Slider - Desktop only */}
-                {!isMobile && !mutedStates[video.id] && (
-                  <div className="w-20 h-8 flex items-center bg-background/80 rounded-md px-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Slider
-                      value={[volumeStates[video.id]]}
-                      onValueChange={(value) => handleVolumeChange(video.id, value)}
-                      max={100}
-                      step={1}
-                      className="w-full"
+          {trailerVideos.map((video) => {
+            const showLoading = !loadedVideos[video.id] || bufferingVideos[video.id];
+            return (
+              <div
+                key={video.id}
+                className="relative aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all group"
+              >
+                {/* Placeholder Image - shown until video loads */}
+                {!loadedVideos[video.id] && (
+                  <div className="absolute inset-0 z-10">
+                    <img
+                      src={video.placeholder}
+                      alt="Loading preview"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 )}
-                {/* Mute/Unmute Toggle */}
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="opacity-80 hover:opacity-100 transition-opacity bg-background/80 hover:bg-background"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleMute(video.id);
+                
+                {/* Always visible loading overlay when loading or buffering */}
+                {showLoading && (
+                  <div className="absolute inset-0 bg-background/50 flex flex-col items-center justify-center gap-3 z-20">
+                    <Loader2 className="h-8 w-8 md:h-10 md:w-10 text-primary animate-spin" />
+                    <span className="text-foreground font-orbitron text-sm md:text-base">
+                      Loading Video...
+                    </span>
+                  </div>
+                )}
+
+                <video
+                  ref={(el) => {
+                    videoRefs.current[video.id] = el;
                   }}
-                >
-                  {mutedStates[video.id] ? (
-                    <VolumeX className="h-4 w-4" />
-                  ) : (
-                    <Volume2 className="h-4 w-4" />
+                  src={video.src}
+                  autoPlay
+                  loop
+                  muted={mutedStates[video.id]}
+                  playsInline
+                  className={`w-full h-full object-cover cursor-pointer transition-opacity duration-500 ${loadedVideos[video.id] ? 'opacity-100' : 'opacity-0'}`}
+                  onClick={() => toggleMute(video.id)}
+                  onCanPlayThrough={() => handleVideoLoaded(video.id)}
+                />
+                {/* Volume Controls */}
+                <div className="absolute bottom-3 right-3 flex items-center gap-2 z-20">
+                  {/* Volume Slider - Desktop only */}
+                  {!isMobile && !mutedStates[video.id] && (
+                    <div className="w-20 h-8 flex items-center bg-background/80 rounded-md px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Slider
+                        value={[volumeStates[video.id]]}
+                        onValueChange={(value) => handleVolumeChange(video.id, value)}
+                        max={100}
+                        step={1}
+                        className="w-full"
+                      />
+                    </div>
                   )}
-                </Button>
+                  {/* Mute/Unmute Toggle */}
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="opacity-80 hover:opacity-100 transition-opacity bg-background/80 hover:bg-background"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleMute(video.id);
+                    }}
+                  >
+                    {mutedStates[video.id] ? (
+                      <VolumeX className="h-4 w-4" />
+                    ) : (
+                      <Volume2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Fullscreen Video Dialog */}
-      <Dialog open={!!fullscreenVideo} onOpenChange={() => setFullscreenVideo(null)}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95">
-          <DialogClose className="absolute right-4 top-4 z-10">
-            <X className="h-6 w-6 text-white" />
-          </DialogClose>
-          {fullscreenVideo && (
-            <video
-              src={fullscreenVideo}
-              autoPlay
-              loop
-              controls
-              className="w-full h-full object-contain"
-            />
-          )}
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };

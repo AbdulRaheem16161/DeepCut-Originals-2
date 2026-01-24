@@ -191,7 +191,7 @@ const ServicesSection = () => {
                 key={index}
                 className="flex items-start gap-4 p-6 rounded-xl bg-card border border-border/30 hover:border-primary/30 transition-all duration-300 hover:shadow-lg card-interactive"
               >
-                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold text-xl shadow-lg shadow-primary/30">
+                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-foreground flex items-center justify-center text-orange font-bold text-xl shadow-lg">
                   {step.number}
                 </div>
                 <div>
@@ -214,7 +214,7 @@ const ServicesSection = () => {
               onClick={handleWhatsAppClick}
             >
               <MessageCircle className="w-6 h-6" />
-              Start a Project on WhatsApp – 03364518167
+              Start WhatsApp Chat
             </Button>
           </div>
         </div>

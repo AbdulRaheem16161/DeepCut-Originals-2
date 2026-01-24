@@ -21,22 +21,22 @@ const About = () => {
           <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-12">
             {/* Members */}
             <div className="flex items-center gap-4 bg-card border border-border rounded-2xl px-8 py-6 shadow-lg card-interactive group">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-foreground to-foreground/70 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 rounded-xl bg-foreground flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <Users className="w-8 h-8 text-background" />
               </div>
               <div>
-                <div className="text-5xl font-inter font-bold text-orange animate-count">6</div>
+                <div className="text-5xl font-inter font-bold text-foreground animate-count">6</div>
                 <div className="text-muted-foreground text-sm font-medium">Team Members</div>
               </div>
             </div>
 
             {/* Games Released */}
             <div className="flex items-center gap-4 bg-card border border-border rounded-2xl px-8 py-6 shadow-lg card-interactive group">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-foreground to-foreground/70 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 rounded-xl bg-foreground flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <Gamepad2 className="w-8 h-8 text-background" />
               </div>
               <div>
-                <div className="text-5xl font-inter font-bold text-orange animate-count">3</div>
+                <div className="text-5xl font-inter font-bold text-foreground animate-count">3</div>
                 <div className="text-muted-foreground text-sm font-medium">Games Released</div>
               </div>
             </div>
