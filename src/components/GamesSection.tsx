@@ -74,7 +74,7 @@ const games = [{
   icon: cureInfectionIcon,
   previewVideo: '/videos/cure-infection.mp4',
   previewPlaceholder: gameVideoPlaceholderCure,
-  link: 'https://goncal0.itch.io/cure-and-infection',
+  link: 'https://www.dropbox.com/scl/fi/hjqcebohvn8fs5zgs33q8/Cure-and-Infection-2.zip?dl=1',
   screenshots: [cureInfection1, cureInfection2, cureInfection3, cureInfection4, cureInfection5, cureInfection6]
 }, {
   id: 2,
@@ -84,7 +84,7 @@ const games = [{
   icon: raptorHunterIcon,
   previewVideo: '/videos/raptor-hunter.mp4',
   previewPlaceholder: gameVideoPlaceholderRaptor,
-  link: 'https://raptorbot.itch.io/raptor-hunter',
+  link: 'https://www.dropbox.com/scl/fi/lvx4dhg20yfluc0qytxwu/Build-ZIP-1.zip?dl=1',
   screenshots: [raptorHunter1, raptorHunter2, raptorHunter3, raptorHunter4, raptorHunter5, raptorHunter6]
 }, {
   id: 4,
@@ -94,7 +94,7 @@ const games = [{
   icon: findImposterIcon,
   previewVideo: '/videos/find-imposter.mp4',
   previewPlaceholder: gameVideoPlaceholderImposter,
-  link: 'https://raptorbot.itch.io/find-the-imposter',
+  link: 'https://www.dropbox.com/scl/fi/0lgbf0yqkgta45vk613w9/DownloadableBuild-1.zip?dl=1',
   screenshots: [findImposter1, findImposter2, findImposter3, findImposter4, findImposter5, findImposter6]
 }];
 
@@ -298,7 +298,7 @@ const GameCard = ({
             <Button 
               size="sm" 
               onClick={() => window.open(game.link, '_blank')} 
-              className="gap-2 bg-foreground hover:bg-foreground/90 text-orange"
+              className="gap-2 bg-foreground hover:bg-foreground/90 text-white"
             >
               <Download className="h-4 w-4" />
               Download for Windows

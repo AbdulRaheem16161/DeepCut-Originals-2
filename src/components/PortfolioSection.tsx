@@ -11,6 +11,9 @@ import characterDesign3 from '@/assets/character-design-3.jpg';
 import characterDesign4 from '@/assets/character-design-4.jpg';
 import characterDesign5 from '@/assets/character-design-5.jpg';
 import characterDesign6 from '@/assets/character-design-6.jpg';
+import characterDesign7 from '@/assets/character-design-7.jpg';
+import characterDesign8 from '@/assets/character-design-8.jpg';
+import characterDesign9 from '@/assets/character-design-9.jpg';
 
 // Import portraits
 import portrait1 from '@/assets/portrait-1.png';
@@ -25,6 +28,10 @@ import portrait9 from '@/assets/portrait-9.jpg';
 import portrait10 from '@/assets/portrait-10.jpg';
 import portrait11 from '@/assets/portrait-11.jpg';
 import portrait12 from '@/assets/portrait-12.jpg';
+import portrait14 from '@/assets/portrait-14.jpg';
+import portrait15 from '@/assets/portrait-15.jpg';
+import portrait16 from '@/assets/portrait-16.jpg';
+import portrait17 from '@/assets/portrait-17.jpg';
 
 // Import environments
 import env1 from '@/assets/env-1.png';
@@ -86,6 +93,15 @@ const artCategories = {
     id: 4,
     image: characterDesign4
   }, {
+    id: 7,
+    image: characterDesign7
+  }, {
+    id: 8,
+    image: characterDesign8
+  }, {
+    id: 9,
+    image: characterDesign9
+  }, {
     id: 5,
     image: characterDesign5
   }, {
@@ -128,6 +144,18 @@ const artCategories = {
   }, {
     id: 12,
     image: portrait12
+  }, {
+    id: 14,
+    image: portrait14
+  }, {
+    id: 15,
+    image: portrait15
+  }, {
+    id: 16,
+    image: portrait16
+  }, {
+    id: 17,
+    image: portrait17
   }]
 };
 
@@ -259,8 +287,8 @@ const PortfolioSection = () => {
         <div id="environments" className="mb-20">
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
 
-          {/* Environment Images Grid - 3x3 grid */}
-          <div className="grid grid-cols-3 gap-4">
+          {/* Environment Images Grid - 2 cols on mobile, 3 cols on desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {environmentsData.map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
                 <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
               </div>)}
