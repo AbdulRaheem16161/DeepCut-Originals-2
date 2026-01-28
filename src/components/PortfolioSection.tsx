@@ -259,8 +259,8 @@ const PortfolioSection = () => {
         <div id="environments" className="mb-20">
           <SectionHeader title="Environments" subtitle="Environment art and world design" />
 
-          {/* Environment Images Grid - 3x3 grid */}
-          <div className="grid grid-cols-3 gap-4">
+          {/* Environment Images Grid - 1 col mobile, 3 cols desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {environmentsData.map(item => <div key={item.id} className="aspect-video rounded-lg overflow-hidden bg-muted border border-border/30 hover:border-primary/50 transition-all cursor-pointer hover:scale-[1.02]" onClick={() => setZoomedArtImage(item.image)}>
                 <img src={item.image} alt={`Environment ${item.id}`} className="w-full h-full object-cover" />
               </div>)}
@@ -271,8 +271,8 @@ const PortfolioSection = () => {
         <div id="3d-models" className="mb-20">
           <SectionHeader title="3D Models" subtitle="High-quality 3D assets and animations" />
 
-          {/* All Models in a Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {/* All Models in a Grid - 1 col mobile, 3 cols desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {models3DVideos.map(model => <div key={model.id}>
                 <Model3DCard model={model} featured={model.featured} onVideoClick={setFullscreenVideo} />
               </div>)}
