@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Download, X, Volume2, VolumeX, Loader2 } from 'lucide-react';
+import { Download, X, Volume2, VolumeX, Loader2, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
@@ -110,6 +110,7 @@ const VideoPlayer = ({
   const [isBuffering, setIsBuffering] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [volume, setVolume] = useState(50);
+  const [showUnmuteHint, setShowUnmuteHint] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isMobile = useIsMobile();
 
@@ -135,6 +136,18 @@ const VideoPlayer = ({
       };
     }
   }, []);
+
+  // Show "Click to unmute" hint every 3 seconds when muted
+  useEffect(() => {
+    if (!isMuted) return;
+    
+    const interval = setInterval(() => {
+      setShowUnmuteHint(true);
+      setTimeout(() => setShowUnmuteHint(false), 1500);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [isMuted]);
 
   const showLoading = !isVideoLoaded || isBuffering;
 
@@ -187,6 +200,15 @@ const VideoPlayer = ({
           <span className="text-foreground font-orbitron text-sm md:text-base">
             Loading Video...
           </span>
+        </div>
+      )}
+
+      {/* Click to unmute hint */}
+      {isMuted && !showLoading && (
+        <div 
+          className={`absolute top-3 left-3 z-20 bg-background/80 px-3 py-1.5 rounded-md transition-opacity duration-500 ${showUnmuteHint ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <span className="text-foreground text-xs font-medium">Click to unmute</span>
         </div>
       )}
 
@@ -298,10 +320,11 @@ const GameCard = ({
             <Button 
               size="sm" 
               onClick={() => window.open(game.link, '_blank')} 
-              className="gap-2 bg-foreground hover:bg-foreground/90 text-orange"
+              className="gap-2 bg-foreground hover:bg-foreground/90 text-background md:px-4 px-3"
             >
-              <Download className="h-4 w-4" />
-              Download for Windows
+              <Download className="h-4 w-4 hidden md:block" />
+              <span className="hidden md:inline">Download for Windows</span>
+              <span className="md:hidden">Download (PC)</span>
             </Button>
           </div>
         </div>

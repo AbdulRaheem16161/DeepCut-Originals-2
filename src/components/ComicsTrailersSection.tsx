@@ -27,6 +27,7 @@ const ComicsTrailersSection = () => {
   });
   const [loadedVideos, setLoadedVideos] = useState<Record<number, boolean>>({});
   const [bufferingVideos, setBufferingVideos] = useState<Record<number, boolean>>({});
+  const [showUnmuteHints, setShowUnmuteHints] = useState<Record<number, boolean>>({});
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const isMobile = useIsMobile();
 
@@ -43,6 +44,23 @@ const ComicsTrailersSection = () => {
       }
     });
   }, [loadedVideos]);
+
+  // Show "Click to unmute" hint every 3 seconds for muted videos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newHints: Record<number, boolean> = {};
+      Object.entries(mutedStates).forEach(([id, isMuted]) => {
+        if (isMuted) {
+          newHints[parseInt(id)] = true;
+        }
+      });
+      setShowUnmuteHints(newHints);
+      
+      setTimeout(() => setShowUnmuteHints({}), 1500);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [mutedStates]);
 
   const toggleMute = (id: number) => {
     setMutedStates((prev) => {
@@ -122,6 +140,15 @@ const ComicsTrailersSection = () => {
                     <span className="text-foreground font-orbitron text-sm md:text-base">
                       Loading Video...
                     </span>
+                  </div>
+                )}
+
+                {/* Click to unmute hint */}
+                {mutedStates[video.id] && !showLoading && (
+                  <div 
+                    className={`absolute top-3 left-3 z-20 bg-background/80 px-3 py-1.5 rounded-md transition-opacity duration-500 ${showUnmuteHints[video.id] ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <span className="text-foreground text-xs font-medium">Click to unmute</span>
                   </div>
                 )}
 
