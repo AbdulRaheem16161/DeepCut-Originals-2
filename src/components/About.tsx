@@ -1,9 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { UserPlus, Users, Gamepad2 } from 'lucide-react';
-
 const About = () => {
-  return (
-    <section id="about" className="py-20 bg-secondary">
+  return <section id="about" className="py-20 bg-secondary">
       <div className="container mx-auto px-4 lg:px-8">
         {/* About Section */}
         <div className="text-center mb-16">
@@ -11,7 +9,7 @@ const About = () => {
             <span className="text-foreground">About</span>{' '}
             <span className="text-orange">DeepCut Originals</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-muted-foreground max-w-3xl mx-auto text-center text-base">
             We build complete fully functional games from programming to final polish. Our work includes 3D models animations environments VFX and cinematic post processing. We also create 2D art character designs concept art and illustrations. Whether you need a single asset or a complete game we focus on delivering quality work done right.
           </p>
         </div>
@@ -49,20 +47,17 @@ const About = () => {
             <span className="text-orange">Join</span>{' '}
             <span className="text-foreground">Our Team</span>
           </h3>
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed text-center text-base">
             We are a small indie studio of six and we are always open to welcoming new people. We especially enjoy working with beginners who want to learn grow and start their game development journey with us. If you have passion and a willingness to improve, you belong here.
           </p>
-          <Button 
-            className="bg-foreground hover:bg-foreground text-background hover:text-background text-base px-8 py-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg" 
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-          >
+          <Button className="bg-foreground hover:bg-foreground text-background hover:text-background text-base px-8 py-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg" onClick={() => document.getElementById('contact')?.scrollIntoView({
+          behavior: 'smooth'
+        })}>
             <UserPlus className="mr-2 h-5 w-5" />
             Join Us
           </Button>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default About;
